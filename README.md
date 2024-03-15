@@ -36,7 +36,7 @@ To get started with the EV Charger Application, follow the steps below:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/KesavanOutdid/EV.git
+   git clone https://github.com/anishkumar-0502/EV.git
    cd EV
 
 2. Install dependencies for both the Frontent and backend:
