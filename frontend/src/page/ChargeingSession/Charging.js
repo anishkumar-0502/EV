@@ -1,8 +1,7 @@
 /* eslint-disable default-case */
-import React, { useEffect, useState } from 'react';
+import React  from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
-import EV2 from '../../assets/images/EV_Logo2.png';
 
 const Charging = ({ userInfo, handleLogout, children }) => {
     
@@ -24,7 +23,7 @@ const Charging = ({ userInfo, handleLogout, children }) => {
                 
                     <div className="d-flex justify-content-between flex-wrap flex-md-nowrap bg-white align-items-center pt-3 pb-2 mb-3 ">
                         <div className="container">
-                        
+
                         </div>
                     </div>
                     {children}

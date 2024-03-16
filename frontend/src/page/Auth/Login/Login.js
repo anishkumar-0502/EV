@@ -1,6 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
-import axios from 'axios'; // Import Axios
 import './Login.css'; // Assuming Login.css is the CSS file for this component
 import logo from '../../../assets/images/EV_Logo2.png';
 import Swal from 'sweetalert2';
@@ -13,7 +11,6 @@ const Login = ({ handleLogin }) => {
   const inputRefs = useRef(Array.from({ length: 4 }, () => React.createRef()));
   const loginPassword = loginPasswords.join('');
 
-  const history = useHistory();
   function LogError(Message){
     Swal.fire({
         title: "Login failed", 

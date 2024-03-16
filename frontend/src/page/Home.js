@@ -1,42 +1,21 @@
 /* eslint-disable default-case */
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 import Footer from '../components/Footer/Footer';
 import EV2 from '../assets/images/EV_Logo2.png';
+import { useHistory } from 'react-router-dom';
 
-const Home = ({ userInfo, handleLogout, children }) => {   
-    const [searchChargerID, setChargerID] = useState('');
-    const [ChargerID, setSearchChargerID] = useState('');
-    const Username = userInfo.username;
+const Home = ({ userInfo, handleLogout, children,handleSearchRequest }) => {   
+    const [searchChargerID, setChargerID] = useState('');  
     const history = useHistory();
 
-
-    // Search charger Id
-    const handleSearchRequest = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('/SearchCharger', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ searchChargerID, Username }),
-            });
-
-            if (response.ok) {
-                setSearchChargerID(searchChargerID);
-                console.log("ChargerId" ,searchChargerID)
-                if(searchChargerID){
-                    history.push('/Charging', { searchChargerID });
-                }
-            } else {
-                const errorData = await response.json();
-                alert(errorData.message);
-            }
-        } catch (error) {
-            alert(error);
-        }
-    };
+    
+  const handleSearch = async(e) => {
+    e.preventDefault();
+    const result = await handleSearchRequest(e,searchChargerID);
+    if(result === searchChargerID){
+        history.push('/Charging', { searchChargerID });
+    }
+};
 
     return (
         <div className="container-fluid">
@@ -48,7 +27,7 @@ const Home = ({ userInfo, handleLogout, children }) => {
                     </a>
                 </nav>
                 {/* Form */}
-                <form onSubmit={handleSearchRequest} className="container fixed-top">
+                <form onSubmit={handleSearch} className="container fixed-top">
                     <div className="input-group md-form form-sm form-2">
                         <input type="text" className="form-control my-0 py-1 red-border" style={{ borderRadius: '500px 0 0 500px' }} id="chargerID" name="chargerID" value={searchChargerID} onChange={(e) => setChargerID(e.target.value)} placeholder="Enter DeviceID" required />
                         <div className="input-group-append">

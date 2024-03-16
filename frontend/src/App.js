@@ -16,9 +16,10 @@ import Charging from './page/ChargeingSession/Charging';
 const App = () => {
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
   const [loggedIn, setLoggedIn] = useState(!!storedUser);
-
+  const [ChargerID, setSearchChargerID] = useState('');
   const [userInfo, setUserInfo] = useState(storedUser || {});
   const [initialLoad, setInitialLoad] = useState(false);
+  const Username = userInfo.username;
 
   useEffect(() => {
     setInitialLoad(true);
@@ -35,6 +36,32 @@ const App = () => {
     setUserInfo({});
     sessionStorage.removeItem('user');
   };
+  
+    // Search charger Id
+    const handleSearchRequest = async (e,searchChargerID) => {
+      e.preventDefault();
+      try {
+          const response = await fetch('/SearchCharger', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ searchChargerID, Username }),
+          });
+
+          if (response.ok) {
+              setSearchChargerID(searchChargerID);
+              if(searchChargerID){
+                return searchChargerID;
+              }
+          } else {
+              const errorData = await response.json();
+              alert(errorData.message);
+          }
+      } catch (error) {
+          alert(error);
+      }
+  };
   return (
     <Router>
       <Route exact path="/">
@@ -46,9 +73,9 @@ const App = () => {
       <Route path="/Home">
         {loggedIn ? (
           initialLoad ? (
-            <Home userInfo={userInfo} handleLogout={handleLogout}/>
+            <Home userInfo={userInfo} handleLogout={handleLogout} setSearchChargerID={setSearchChargerID} handleSearchRequest={handleSearchRequest}/>
           ) : (
-            <Home userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />
+            <Home userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} handleSearchRequest={handleSearchRequest}/>
           )
         ) : (
           <Redirect to="/" />
@@ -57,7 +84,7 @@ const App = () => {
       <Route path="/Charging">
         {loggedIn ? (
           initialLoad ? (
-            <Charging userInfo={userInfo} handleLogout={handleLogout}/>
+            <Charging userInfo={userInfo} handleLogout={handleLogout} />
           ) : (
             <Charging userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />
           )
@@ -67,8 +94,18 @@ const App = () => {
       </Route>
       <Route  path="/Wallet" component={Wallet} />
       <Route  path="/History" component={History} />
-      <Route  path="/Profile" component={Profile} />
-    </Router>
+      <Route path="/Profile">
+        {loggedIn ? (
+          initialLoad ? (
+            <Profile userInfo={userInfo} handleLogout={handleLogout}  handleSearchRequest={handleSearchRequest}/>
+          ) : (
+            <Profile userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} handleSearchRequest={handleSearchRequest} />
+          )
+        ) : (
+          <Redirect to="/" />
+        )}
+      </Route>
+      </Router>
   );
 };
 
