@@ -17,8 +17,8 @@ const Footer = () => {
                     {/* Home */}
                     <div className="d-flex flex-column align-items-center">
                         <Link
-                            className={`text-decoration-none text-dark text-${location.pathname === '/' ? 'dark' : 'light'} ${location.pathname === '/' ? 'fw-bold' : ''}`}
-                            to="/"
+                            className={`text-decoration-none text-dark text-${location.pathname === '/Home' ? 'dark' : 'light'} ${location.pathname === '/' ? 'fw-bold' : ''}`}
+                            to="/Home"
                         >
                             <i className="fas fa-home fa-2x mb-1"></i>
                             <span className="d-block text-dark">Home</span>

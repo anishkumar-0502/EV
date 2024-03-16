@@ -7,10 +7,12 @@ import Swal from 'sweetalert2';
 
 
 
-const Login = () => {
+const Login = ({ handleLogin }) => {
   const [loginUsername, setUsername] = useState('');
   const [loginPasswords, setLoginPassword] = useState(['', '', '', '']);
   const inputRefs = useRef(Array.from({ length: 4 }, () => React.createRef()));
+  const loginPassword = loginPasswords.join('');
+
   const history = useHistory();
   function LogError(Message){
     Swal.fire({
@@ -38,48 +40,97 @@ const Login = () => {
     }
   };
   
-  // Check login credentials
-  const handleLoginRequest = async (e) => {
-    e.preventDefault();
-
-    // Validation for user name
-    const processedLoginUsername = loginUsername.replace(/\s+/g, '_');
-    // Validation for password (4-digit number)
-    const passwordPattern = /^\d{4}$/;
-
-    if (processedLoginUsername !== loginUsername) {
-      let setMessage ='User Name should not contain spaces. eg: kesav_d';
-      LogError(setMessage);
-      return false;    }
-
-    if (!passwordPattern.test(loginPasswords.join(''))) {
-      let setMessage ='Password must be a 4-digit number';
-      LogError(setMessage);
-      return false;    }
-
-    try {
-      const response = await axios.post('http://192.168.1.13:8052/CheckLoginCredentials', {
-        loginUsername: processedLoginUsername,
-        loginPassword: loginPasswords.join(''),
-      });
-
-      if (response.status === 200) {
-        console.log(response.data, processedLoginUsername);
-        history.push('/Home')
-      } 
-    } catch (error) {
-      Swal.fire({
-        position: " top-center",
-        icon: "error",
-        title: "Login failed",
-        text: "Invalid Credentials",
-        customClass: {
-            popup: 'swal-popup-center', // Center the entire popup
-            icon: 'swal-icon-center',   // Center the icon within the popup
-        },
-    });
-  }
+    // Check login credentials
+    const handleLoginRequest = async (e) => {
+      e.preventDefault();
+  
+      // Validation for user name
+      const processedLoginUsername = loginUsername.replace(/\s+/g, '_');
+  
+      // Validation for password (4-digit number)
+      const passwordPattern = /^\d{4}$/;
+  
+      if (processedLoginUsername !== loginUsername) {
+        let setMessage ='User Name should not contain spaces. eg: kesav_d';
+        LogError(setMessage);
+        return false;   
+      }
+  
+      if (!passwordPattern.test(loginPassword)) {
+        let setMessage ='Password must be a 4-digit number';
+        LogError(setMessage);
+        return false;   
+      }
+  
+      try {
+          const response = await fetch('/CheckLoginCredentials', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ loginUsername: processedLoginUsername, loginPassword }),
+          });
+  
+          if (response.ok) {
+              const data = await response.json();
+              handleLogin(data, processedLoginUsername);
+          } 
+      } catch (error) {
+        Swal.fire({
+          position: " top-center",
+          icon: "error",
+          title: "Login failed",
+          text: "Invalid Credentials",
+          customClass: {
+              popup: 'swal-popup-center', // Center the entire popup
+              icon: 'swal-icon-center',   // Center the icon within the popup
+          },
+      });      }
   };
+
+  // Check login credentials
+  // const handleLoginRequest = async (e) => {
+  //   e.preventDefault();
+
+  //   // Validation for user name
+  //   const processedLoginUsername = loginUsername.replace(/\s+/g, '_');
+  //   // Validation for password (4-digit number)
+  //   const passwordPattern = /^\d{4}$/;
+
+  //   if (processedLoginUsername !== loginUsername) {
+  //     let setMessage ='User Name should not contain spaces. eg: kesav_d';
+  //     LogError(setMessage);
+  //     return false;   
+  //    }
+
+  //   if (!passwordPattern.test(loginPasswords.join(''))) {
+  //     let setMessage ='Password must be a 4-digit number';
+  //     LogError(setMessage);
+  //     return false;    }
+
+  //   try {
+  //     const response = await axios.post('/CheckLoginCredentials', {
+  //       loginUsername: processedLoginUsername,
+  //       loginPassword: loginPasswords.join(''),
+  //     });
+
+  //     if (response.status === 200) {
+  //       console.log(response.data, processedLoginUsername);
+  //       history.push('/Home')
+  //     } 
+  //   } catch (error) {
+  //     Swal.fire({
+  //       position: " top-center",
+  //       icon: "error",
+  //       title: "Login failed",
+  //       text: "Invalid Credentials",
+  //       customClass: {
+  //           popup: 'swal-popup-center', // Center the entire popup
+  //           icon: 'swal-icon-center',   // Center the icon within the popup
+  //       },
+  //   });
+  // }
+  // };
 
   return (
     <div className="container">
