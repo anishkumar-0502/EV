@@ -2575,7 +2575,7 @@
                     if (entry === undefined) entry = "";
                     if (!isStatic && (test.fn === null || testPos.input === undefined)) {
                         isStatic = true;
-                        maskTemplate.push("<span class='im-static'>" + entry);
+                        maskTemplate.push("<span className='im-static'>" + entry);
                     } else if (isStatic && (test.fn !== null && testPos.input !== undefined || test.def === "")) {
                         isStatic = false;
                         var mtl = maskTemplate.length;
@@ -2585,7 +2585,7 @@
                 }
                 function setCaret() {
                     if (document.activeElement === input) {
-                        maskTemplate.splice(caretPos.begin, 0, caretPos.begin === caretPos.end || caretPos.end > getMaskSet().maskLength ? '<mark class="im-caret" style="border-right-width: 1px;border-right-style: solid;">' : '<mark class="im-caret-select">');
+                        maskTemplate.splice(caretPos.begin, 0, caretPos.begin === caretPos.end || caretPos.end > getMaskSet().maskLength ? '<mark className="im-caret" style="border-right-width: 1px;border-right-style: solid;">' : '<mark className="im-caret-select">');
                         maskTemplate.splice(caretPos.end + 1, 0, "</mark>");
                     }
                 }

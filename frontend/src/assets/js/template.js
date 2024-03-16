@@ -89,7 +89,7 @@ import PerfectScrollbar from 'perfect-scrollbar';
     });
 
     //checkbox and radios
-    $(".form-check label,.form-radio label").append('<i class="input-helper"></i>');
+    $(".form-check label,.form-radio label").append('<i className="input-helper"></i>');
 
     //Horizontal menu in mobile
     $('[data-toggle="horizontal-menu-toggle"]').on("click", function() {

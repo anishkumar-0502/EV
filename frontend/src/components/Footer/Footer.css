@@ -1,0 +1,9 @@
+/* Default styles for the icons */
+.text-light i {
+    color: #878a8e; /* Light color */
+}
+
+/* Styles for the icons when hovered over */
+.text-light i:hover {
+    color: #6da726 !important;
+}

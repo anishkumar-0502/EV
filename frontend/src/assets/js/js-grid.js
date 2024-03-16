@@ -55,7 +55,7 @@
                       item.Checked = $(this).is(":checked");
                     })
                   )
-                  .append('<i class="input-helper"></i>')
+                  .append('<i className="input-helper"></i>')
                 );
             }
           },
@@ -116,7 +116,7 @@
                       item.Checked = $(this).is(":checked");
                     })
                   )
-                  .append('<i class="input-helper"></i>')
+                  .append('<i className="input-helper"></i>')
                 );
             }
           }
@@ -173,7 +173,7 @@
                       item.Checked = $(this).is(":checked");
                     })
                   )
-                  .append('<i class="input-helper"></i>')
+                  .append('<i className="input-helper"></i>')
                 );
             }
           }

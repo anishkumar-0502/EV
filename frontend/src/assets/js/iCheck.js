@@ -26,7 +26,7 @@
       self.iCheck({
         checkboxClass: 'icheckbox_line-blue',
         radioClass: 'iradio_line',
-        insert: '<div class="icheck_line-icon"></div>' + label_text
+        insert: '<div className="icheck_line-icon"></div>' + label_text
       });
     }
     $('.icheck-polaris input').iCheck({

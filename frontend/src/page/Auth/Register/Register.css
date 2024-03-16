@@ -1,0 +1,96 @@
+/* Register.css */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.log-on,
+.sing-up {
+  margin-bottom: 20px;
+}
+
+.log_btn {
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+   /* Applying border radius */
+  cursor: pointer;
+}
+
+.log_btn:hover {
+  background-color: #0056b3;
+}
+
+input[type="text"],
+input[type="tel"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.password-input-container {
+  display: flex;
+  justify-content: space-between; /* Distribute space evenly */
+}
+
+.password-input-container input[type="password"] {
+  width: calc(25% - 5px); /* Divide the width into four equal parts with a bit of spacing */
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.sing-up {
+  text-align: center;
+}
+
+.sing-up a {
+  color: #007bff;
+}
+
+.sing-up a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .login {
+    max-width: 300px;
+  }
+}
+
+/* Register.css */
+.password-container {
+  display: flex;
+}
+
+.password-container input {
+  flex: 1;
+  margin-right: 5px; /* Adjust as needed */
+  
+}
+

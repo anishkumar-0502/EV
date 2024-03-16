@@ -485,10 +485,10 @@
         /^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/ig,
         /<!--StartFragment-->|<!--EndFragment-->/g,
         [
-          /( ?)<span class="Apple-converted-space">\u00a0<\/span>( ?)/g,
+          /( ?)<span className="Apple-converted-space">\u00a0<\/span>( ?)/g,
           trimSpaces
         ],
-        /<br class="Apple-interchange-newline">/g,
+        /<br className="Apple-interchange-newline">/g,
         /<br>$/i
       ]);
       return html;
@@ -515,7 +515,7 @@
     };
 
     var isWordContent = function (content) {
-      return /<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument/i.test(content) || /class="OutlineElement/.test(content) || /id="?docs\-internal\-guid\-/.test(content);
+      return /<font face="Times New Roman"|className="?Mso|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument/i.test(content) || /className="OutlineElement/.test(content) || /id="?docs\-internal\-guid\-/.test(content);
     };
     var isNumericList = function (text) {
       var found;
@@ -726,7 +726,7 @@
         validStyles = global$5.makeMap(retainStyleProperties.split(/[, ]/));
       }
       content = filter$1(content, [
-        /<br class="?Apple-interchange-newline"?>/gi,
+        /<br className="?Apple-interchange-newline"?>/gi,
         /<b[^>]+id="?docs-internal-[^>]*>/gi,
         /<!--[\s\S]+?-->/gi,
         /<(!|script[^>]*>.*?<\/script(?=[>\s])|\/?(\?xml(:\w+)?|img|meta|link|style|\w:\w+)(?=[\s\/>]))[^>]*>/gi,

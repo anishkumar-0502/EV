@@ -33,7 +33,7 @@
       nav: true,
       autoplay: true,
       autoplayTimeout: 5500,
-      navText: ["<i class='ti-angle-left'></i>", "<i class='ti-angle-right'></i>"]
+      navText: ["<i className='ti-angle-left'></i>", "<i className='ti-angle-right'></i>"]
     });
   }
 

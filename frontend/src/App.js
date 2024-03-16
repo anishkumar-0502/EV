@@ -2,10 +2,15 @@
 /* eslint-disable strict */
 /* eslint-disable no-lone-blocks */
 import React, { useState, useEffect  } from 'react';
+import "./App.css"
 import { BrowserRouter as Router, Route,  Redirect } from 'react-router-dom'; // Import Redirect
-import Login from './page/Auth/Login';
-import register from './page/Auth/Register';
+import Login from './page/Auth/Login/Login';
+import register from './page/Auth/Register/Register';
 import Home from './page/Home';
+import Wallet from './page/Wallet/Wallet';
+import History from './page/History/History';
+import Profile from './page/Profile/Profile';
+
 
 const App = () => {
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
@@ -30,18 +35,11 @@ const App = () => {
       <Route exact path="/">
           {loggedIn ? <Redirect to="/Home" /> : <Login handleLogin={handleLogin}  userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />}
         </Route>
-        <Route path="/Home">
-        {loggedIn ? (
-          initialLoad ? (
-            <Home userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />
-          ) : (
-            <Home userInfo={userInfo} handleLogout={handleLogout} />
-          )
-        ) : (
-          <Redirect to="/" />
-        )}
-      </Route>
         <Route  path="/register" component={register} />
+      <Route exact path="/Home" component={Home} />
+      <Route  path="/Wallet" component={Wallet} />
+      <Route  path="/History" component={History} />
+      <Route  path="/Profile" component={Profile} />
     </Router>
   );
 };

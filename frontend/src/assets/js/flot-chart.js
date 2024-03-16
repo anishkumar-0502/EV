@@ -208,7 +208,7 @@
       }
     });
 
-    $("<div class='flot-tooltip' class='chart-tooltip'></div>").appendTo("body");
+    $("<div className='flot-tooltip' className='chart-tooltip'></div>").appendTo("body");
   }
 
 

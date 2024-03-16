@@ -11,7 +11,7 @@ import jQuery from 'jquery';
       var item = $(this).prevAll('.todo-list-input').val();
 
       if (item) {
-        todoListItem.append("<li><div class='form-check'><label class='form-check-label'><input class='checkbox' type='checkbox'/>" + item + "<i class='input-helper'></i></label></div><i class='remove ti-close'></i></li>");
+        todoListItem.append("<li><div className='form-check'><label className='form-check-label'><input className='checkbox' type='checkbox'/>" + item + "<i className='input-helper'></i></label></div><i className='remove ti-close'></i></li>");
         todoListInput.val("");
       }
 

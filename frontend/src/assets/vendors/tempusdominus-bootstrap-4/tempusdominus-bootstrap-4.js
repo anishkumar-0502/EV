@@ -2462,14 +2462,14 @@ var TempusDominusBootstrap4 = function ($) {
         yearsViewHeader.eq(2).addClass('disabled');
       }
 
-      html += "<span data-action=\"selectYear\" class=\"year old" + (!this._isValid(startYear, 'y') ? ' disabled' : '') + "\">" + (startYear.year() - 1) + "</span>";
+      html += "<span data-action=\"selectYear\" className=\"year old" + (!this._isValid(startYear, 'y') ? ' disabled' : '') + "\">" + (startYear.year() - 1) + "</span>";
 
       while (!startYear.isAfter(endYear, 'y')) {
-        html += "<span data-action=\"selectYear\" class=\"year" + (startYear.isSame(this._getLastPickedDate(), 'y') && !this.unset ? ' active' : '') + (!this._isValid(startYear, 'y') ? ' disabled' : '') + "\">" + startYear.year() + "</span>";
+        html += "<span data-action=\"selectYear\" className=\"year" + (startYear.isSame(this._getLastPickedDate(), 'y') && !this.unset ? ' active' : '') + (!this._isValid(startYear, 'y') ? ' disabled' : '') + "\">" + startYear.year() + "</span>";
         startYear.add(1, 'y');
       }
 
-      html += "<span data-action=\"selectYear\" class=\"year old" + (!this._isValid(startYear, 'y') ? ' disabled' : '') + "\">" + startYear.year() + "</span>";
+      html += "<span data-action=\"selectYear\" className=\"year old" + (!this._isValid(startYear, 'y') ? ' disabled' : '') + "\">" + startYear.year() + "</span>";
       yearsView.find('td').html(html);
     };
 
@@ -2502,18 +2502,18 @@ var TempusDominusBootstrap4 = function ($) {
       if (startDecade.year() - 10 < 0) {
         html += '<span>&nbsp;</span>';
       } else {
-        html += "<span data-action=\"selectDecade\" class=\"decade old\" data-selection=\"" + (startDecade.year() + 6) + "\">" + (startDecade.year() - 10) + "</span>";
+        html += "<span data-action=\"selectDecade\" className=\"decade old\" data-selection=\"" + (startDecade.year() + 6) + "\">" + (startDecade.year() - 10) + "</span>";
       }
 
       while (!startDecade.isAfter(endDecade, 'y')) {
         endDecadeYear = startDecade.year() + 11;
         minDateDecade = this._options.minDate && this._options.minDate.isAfter(startDecade, 'y') && this._options.minDate.year() <= endDecadeYear;
         maxDateDecade = this._options.maxDate && this._options.maxDate.isAfter(startDecade, 'y') && this._options.maxDate.year() <= endDecadeYear;
-        html += "<span data-action=\"selectDecade\" class=\"decade" + (lastPickedDate && lastPickedDate.isAfter(startDecade) && lastPickedDate.year() <= endDecadeYear ? ' active' : '') + (!this._isValid(startDecade, 'y') && !minDateDecade && !maxDateDecade ? ' disabled' : '') + "\" data-selection=\"" + (startDecade.year() + 6) + "\">" + startDecade.year() + "</span>";
+        html += "<span data-action=\"selectDecade\" className=\"decade" + (lastPickedDate && lastPickedDate.isAfter(startDecade) && lastPickedDate.year() <= endDecadeYear ? ' active' : '') + (!this._isValid(startDecade, 'y') && !minDateDecade && !maxDateDecade ? ' disabled' : '') + "\" data-selection=\"" + (startDecade.year() + 6) + "\">" + startDecade.year() + "</span>";
         startDecade.add(10, 'y');
       }
 
-      html += "<span data-action=\"selectDecade\" class=\"decade old\" data-selection=\"" + (startDecade.year() + 6) + "\">" + startDecade.year() + "</span>";
+      html += "<span data-action=\"selectDecade\" className=\"decade old\" data-selection=\"" + (startDecade.year() + 6) + "\">" + startDecade.year() + "</span>";
       decadesView.find('td').html(html);
     };
 
@@ -2551,7 +2551,7 @@ var TempusDominusBootstrap4 = function ($) {
           row = $('<tr>');
 
           if (this._options.calendarWeeks) {
-            row.append("<td class=\"cw\">" + currentDate.week() + "</td>");
+            row.append("<td className=\"cw\">" + currentDate.week() + "</td>");
           }
 
           html.push(row);
@@ -2593,12 +2593,12 @@ var TempusDominusBootstrap4 = function ($) {
           clsName += ' weekend';
         }
 
-        row.append("<td data-action=\"selectDay\" data-day=\"" + currentDate.format('L') + "\" class=\"day" + clsName + "\">" + currentDate.date() + "</td>");
+        row.append("<td data-action=\"selectDay\" data-day=\"" + currentDate.format('L') + "\" className=\"day" + clsName + "\">" + currentDate.date() + "</td>");
         currentDate.add(1, 'd');
       }
 
       $('body').addClass('tempusdominus-bootstrap-datetimepicker-widget-day-click');
-      $('body').append('<div class="tempusdominus-bootstrap-datetimepicker-widget-day-click-glass-panel"></div>');
+      $('body').append('<div className="tempusdominus-bootstrap-datetimepicker-widget-day-click-glass-panel"></div>');
       daysView.find('tbody').empty().append(html);
       $('body').find('.tempusdominus-bootstrap-datetimepicker-widget-day-click-glass-panel').remove();
       $('body').removeClass('tempusdominus-bootstrap-datetimepicker-widget-day-click');
@@ -2627,7 +2627,7 @@ var TempusDominusBootstrap4 = function ($) {
           html.push(row);
         }
 
-        row.append("<td data-action=\"selectHour\" class=\"hour" + (!this._isValid(currentHour, 'h') ? ' disabled' : '') + "\">" + currentHour.format(this.use24Hours ? 'HH' : 'hh') + "</td>");
+        row.append("<td data-action=\"selectHour\" className=\"hour" + (!this._isValid(currentHour, 'h') ? ' disabled' : '') + "\">" + currentHour.format(this.use24Hours ? 'HH' : 'hh') + "</td>");
         currentHour.add(1, 'h');
       }
 
@@ -2648,7 +2648,7 @@ var TempusDominusBootstrap4 = function ($) {
           html.push(row);
         }
 
-        row.append("<td data-action=\"selectMinute\" class=\"minute" + (!this._isValid(currentMinute, 'm') ? ' disabled' : '') + "\">" + currentMinute.format('mm') + "</td>");
+        row.append("<td data-action=\"selectMinute\" className=\"minute" + (!this._isValid(currentMinute, 'm') ? ' disabled' : '') + "\">" + currentMinute.format('mm') + "</td>");
         currentMinute.add(step, 'm');
       }
 
@@ -2668,7 +2668,7 @@ var TempusDominusBootstrap4 = function ($) {
           html.push(row);
         }
 
-        row.append("<td data-action=\"selectSecond\" class=\"second" + (!this._isValid(currentSecond, 's') ? ' disabled' : '') + "\">" + currentSecond.format('ss') + "</td>");
+        row.append("<td data-action=\"selectSecond\" className=\"second" + (!this._isValid(currentSecond, 's') ? ' disabled' : '') + "\">" + currentSecond.format('ss') + "</td>");
         currentSecond.add(5, 's');
       }
 
