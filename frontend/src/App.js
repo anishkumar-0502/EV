@@ -86,7 +86,7 @@ const App = () => {
           initialLoad ? (
             <Charging userInfo={userInfo} handleLogout={handleLogout} />
           ) : (
-            <Charging userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />
+            <Charging userInfo={userInfo} ChargerID={ChargerID} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />
           )
         ) : (
           <Redirect to="/" />

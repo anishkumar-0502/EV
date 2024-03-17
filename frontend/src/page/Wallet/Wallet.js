@@ -8,17 +8,14 @@ const Wallet = ({ userInfo, handleLogout ,children}) => {
 
 return (
     <div className="main">
-    <div className="header">
-    <div className="arrow-icon" onClick={() => history.goBack()}>
-        <i className="fa-solid fa-arrow-left"></i>
+        <div className="header fixed-top pt-3 pb-3 bg-light">
+            <div className="arrow-icon" onClick={() => history.goBack()}>
+                <i className="fa-solid fa-arrow-left ml-4 mt-1"></i>
+            </div>
+            <div className="profile-title">
+                <h3><b>Wallet</b></h3>
+            </div>
         </div>
-        <div className="profile-title">
-        <h3>Wallet</h3>
-        </div>
-    </div>
-
-
-
                 {/* Footer */}
                 <Footer userInfo={userInfo} handleLogout={handleLogout} />
     </div>
