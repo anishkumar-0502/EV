@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import profile from '../../assets/images/faces/profile.jpg';
 import './Profile.css';
 import Footer from '../../components/Footer/Footer';
@@ -6,6 +7,8 @@ import { Link } from 'react-router-dom';
 
 const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
     const ChargerID = setSearchChargerID;
+    const history = useHistory();
+
     // Logout server and client side
     const handleLogouts = async () => {
       try {
@@ -33,7 +36,8 @@ const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
   return (
     <div className="main">
       <div className="header">
-        <div className="arrow-icon">
+    <div className="arrow-icon" onClick={() => history.goBack()}
+>
           <i className="fa-solid fa-arrow-left"></i>
         </div>
         <div className="profile-title">
@@ -58,8 +62,7 @@ const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
               <span> Wallet</span>
             </div>
             <div className="card2">
-                {/* <i class="fa-solid fa-clock-rotate-left"></i> */}
-                <i class="fa-solid fa-clock-rotate-left"></i>
+                <i className="fa-solid fa-clock-rotate-left"></i>
               <span> Session</span>
             </div>
           </div>

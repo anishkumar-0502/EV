@@ -20,6 +20,7 @@
     "concurrently": "^8.2.2",
     "express": "^4.18.2",
     "formik": "^2.4.5",
+    "html5-qrcode": "^2.3.8",
     "i18next": "^23.7.8",
     "jquery": "^3.7.1",
     "JSONStream": "^1.3.5",
@@ -49,11 +50,11 @@
     "react-scripts": "^5.0.1",
     "webpack": "^5.90.1"
   },
-"scripts": {
-  "start": "set PORT=4488 && react-scripts start",
-  "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
-  "custom-install": "npm install --legacy-peer-deps"
-},
+  "scripts": {
+    "start": "set PORT=4488 && react-scripts start",
+    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
+    "custom-install": "npm install --legacy-peer-deps"
+  },
   "resolutions": {
     "nth-check": "2.0.1"
   },

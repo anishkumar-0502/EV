@@ -1,39 +1,37 @@
 /* eslint-disable default-case */
-import React  from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 
-const Charging = ({ userInfo, handleLogout, children }) => {
-    
+const Charging = ({ userInfo, handleLogout }) => {
+    const [ChargerStatus, setChargerStatus] = useState('');
+    const [timestamp, setTimestamp] = useState('');
+    const [checkFault, setCheckFault] = useState(false);
+    const [historys, setHistory] = useState([]);
+    const [voltage, setVoltage] = useState(0);
+    const [current, setCurrent] = useState(0);
+    const [power, setPower] = useState(0);
+    const [energy, setEnergy] = useState(0);
+    const [frequency, setFrequency] = useState(0);
+    const [temperature, setTemperature] = useState(0);
+  
     const history = useHistory();
 
     return (
-        <div className="container-fluid">
-
-            <div className="row">
- 
-            <nav className="navbar container-fluid navbar-expand-lg navbar-light bg-none shadow-none p-none fixed-top "> 
-                    <button
-                        className="btn  text-dark mt-4 shadow"
-                        onClick={() => history.goBack()}
-                    >Go Back</button>
-                </nav>
-                {/* Main content */}
-                <main role="main" className="col-md-9 ml-sm-auto mr-auto col-lg-9 px-md-4 bg-white  content-wrapper">
-                
-                    <div className="d-flex justify-content-between flex-wrap flex-md-nowrap bg-white align-items-center pt-3 pb-2 mb-3 ">
-                        <div className="container">
-
-                        </div>
+        <div className="main">
+            <div className="header">
+                <div className="arrow-icon" onClick={() => history.goBack()}>
+                    <i className="fa-solid fa-arrow-left"></i>
                     </div>
-                    {children}
-                </main>
-
-                {/* Footer */}
-                <Footer userInfo={userInfo} handleLogout={handleLogout} />
+                    <div className="profile-title">
+                    <h3>Charging Session</h3>
+                </div>
             </div>
+            
+            {/* Footer */}
+            <Footer userInfo={userInfo} handleLogout={handleLogout} />
         </div>
-    );
-};
+    )
+    };
 
 export default Charging;
