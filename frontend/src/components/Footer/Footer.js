@@ -14,14 +14,14 @@ const Footer = () => {
             <div className="container-fluid">
                 {/* Section: Social media */}
                 <section className="mt-2 mb-1 d-flex justify-content-around">
-                    {/* Home */}
-                    <div className="d-flex flex-column align-items-center">
+                {/* Home */}
+                <div className="d-flex flex-column align-items-center">
                         <Link
-                            className={`text-decoration-none text-dark text-${location.pathname === '/Home' ? 'dark' : 'light'} ${location.pathname === '/' ? 'fw-bold' : ''}`}
+                            className={`text-decoration-none text-dark text-${location.pathname === '/Home' ? 'dark' : 'light'} ${location.pathname === '/Home' ? 'fw-bold' : ''}`}
                             to="/Home"
                         >
-                            <i className="fas fa-home fa-2x mb-1"></i>
-                            <span className="d-block text-dark">Home</span>
+                        <i className="fas fa-home fa-2x mb-1"></i>
+                            <span className="d-block">Home</span>
                         </Link>
                     </div>
 

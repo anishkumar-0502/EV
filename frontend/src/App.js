@@ -3,7 +3,7 @@
 /* eslint-disable no-lone-blocks */
 import React, { useState, useEffect  } from 'react';
 import "./App.css"
-import { BrowserRouter as Router, Route,  Redirect } from 'react-router-dom'; // Import Redirect
+import { BrowserRouter as Router, Route, Redirect, useHistory  } from 'react-router-dom'; // Import useHistory
 import Login from './page/Auth/Login/Login';
 import register from './page/Auth/Register/Register';
 import Home from './page/Home';
@@ -62,6 +62,46 @@ const App = () => {
           alert(error);
       }
   };
+  const [isTimeoutRunning, setIsTimeoutRunning] = useState(false);
+
+    const startTimeout = () => {
+        setIsTimeoutRunning(true); // Start the timeout by setting isTimeoutRunning to true
+    };
+
+    const stopTimeout = () => {
+        setIsTimeoutRunning(false); // Stop the timeout by setting isTimeoutRunning to false
+    };
+
+    const EndChargingSession = async (ChargerID) => {
+      try{
+        const response = await fetch(`/endChargingSession?ChargerID=${ChargerID}`);
+        const data = await response.json();
+        console.log(data);
+      }catch(error){
+        console.error('Error End Charging Session:', error);
+      }
+    }
+
+    const [walletBalance, setWalletBalance] = useState(null);
+
+      // Get user wallet balance
+  const fetchWallletBal = async (Username) => {
+    try {
+      const response = await fetch(`/GetWalletBalance?username=${Username}`);
+      const data = await response.json();
+      setWalletBalance(data.balance);
+    } catch (error) {
+      console.error('Error fetching wallet balance:', error);
+    }
+  };
+    
+// Function to handle the "Back" button click
+async function handleSearchBox(ChargerID) {
+  setSearchChargerID('');
+  stopTimeout();
+  await EndChargingSession(ChargerID);
+}
+
   return (
     <Router>
       <Route exact path="/">
@@ -84,9 +124,9 @@ const App = () => {
       <Route path="/Charging">
         {loggedIn ? (
           initialLoad ? (
-            <Charging userInfo={userInfo} handleLogout={handleLogout} />
+            <Charging EndChargingSession={EndChargingSession} userInfo={userInfo} handleLogout={handleLogout} isTimeoutRunning={isTimeoutRunning} handleSearchBox={handleSearchBox} stopTimeout={stopTimeout} startTimeout={startTimeout} fetchWallletBal={fetchWallletBal}/>
           ) : (
-            <Charging userInfo={userInfo} ChargerID={ChargerID} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />
+            <Charging EndChargingSession={EndChargingSession} userInfo={userInfo} ChargerID={ChargerID} handleLogout={handleLogout} setInitialLoad={setInitialLoad} isTimeoutRunning={isTimeoutRunning} handleSearchBox={handleSearchBox} stopTimeout={stopTimeout} startTimeout={startTimeout} fetchWallletBal={fetchWallletBal}/>
           )
         ) : (
           <Redirect to="/" />

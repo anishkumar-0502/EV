@@ -10,6 +10,7 @@
     "not samsung <= 21"
   ],
   "hints": {
-    "compat-api/css": "off"
+    "compat-api/css": "off",
+    "no-protocol-relative-urls": "off"
   }
 }
