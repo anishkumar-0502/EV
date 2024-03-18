@@ -12,7 +12,7 @@ const Settings = ({ userInfo ,handleLogout}) => {
   const [userPhone, setUserPhone] = useState(null);
   const [userPass, setUserPass] = useState(null);
   const [otpFields, setOtpFields] = useState(['', '', '', '']);
-  const [profileMessage, setProfileMessage] = useState(null);
+  const [profileMessage,] = useState(null);
 
   useEffect(() => {
     // Fetch user details when the component mounts
