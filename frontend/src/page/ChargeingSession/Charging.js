@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 /* eslint-disable default-case */
 import React, { useEffect, useState } from 'react';
 import "./style.css";
@@ -5,24 +7,21 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import { Row, Col } from 'react-bootstrap';
 
-// import axios from "axios";
-// import WebSocket from 'ws';
-
 const Charging = ({ userInfo, EndChargingSession,handleLogout,isTimeoutRunning,handleSearchBox,startTimeout,stopTimeout,fetchWallletBal }) => {
     const [charging, setCharging] = useState(false);
     const [ChargerID, setChargerID] = useState(false);
-
     const [historys, setHistory] = useState([]);
 
     const history = useHistory();
     const location = useLocation();
 
+    // Function to handle the goback and here by  making null active user of that particular charger
     const goBack = async() => {
         await handleSearchBox(ChargerID);
         history.goBack();
     };
 
-        // Alert message ( success, error)
+    // Alert message ( success, error)
     const [successData, setShowAlertsSuccess] = useState(false);
     const closeAlertSuccess = () => {
         setShowAlertsSuccess(false);
@@ -126,17 +125,11 @@ const Charging = ({ userInfo, EndChargingSession,handleLogout,isTimeoutRunning,h
         if (isTimeoutRunning) {
         // Start the timeout when isTimeoutRunning is true
         const id = setTimeout(() => {
-            // Your timeout logic her   e
             handleSearchBox(ChargerID);
-            //setShowAlerts('Timeout, Please re-initiate the charger !');
             alert('Timeout, Please re-initiate the charger !');
             stopTimeout();
             history.goBack();
         }, 45000); // Example: 5 seconds delay  
-    
-        // Update timeoutId state with the ID returned by setTimeout
-        // setTimeoutId(id);
-    
         // Cleanup function to stop the timeout when component unmounts or isTimeoutRunning becomes false
         return () => clearTimeout(id);
         }
@@ -298,17 +291,17 @@ useEffect(() => {
         return formattedJson;
     };
 
-        // Alert message show
-        const [showAlert, setShowAlert] = useState(false);
-        const [chargingSession, setChargingSession] = useState({});
-        const [updatedUser, setUpdatedUser] = useState({});
-    
-        const setApiData = (chargerSession,uservalue) => {
+    // Alert message show
+    const [showAlert, setShowAlert] = useState(false);
+    const [chargingSession, setChargingSession] = useState({});
+    const [updatedUser, setUpdatedUser] = useState({});
+
+    const setApiData = (chargerSession,uservalue) => {
         console.log(uservalue);
         setChargingSession(chargerSession);
         setUpdatedUser(uservalue);
         setShowAlert(true);
-        };
+    };
     // Alert message close
     const handleCloseAlert = () => {
         setShowAlert(false);
@@ -318,7 +311,7 @@ useEffect(() => {
         const handleStartTransaction = async () => {
             try {
                 setCharging(true);
-            const response = await fetch('http://192.168.1.13:8052/start', {
+            const response = await fetch('/start', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -340,7 +333,7 @@ useEffect(() => {
         const handleStopTransaction = async () => {
             try {
                 setCharging(false);
-            const response = await fetch('http://192.168.1.13:8052/stop', {
+            const response = await fetch('/stop', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -360,7 +353,7 @@ useEffect(() => {
 
     const updateSessionPriceToUser = async (ChargerID, user) => {
         try {
-        const response = await fetch('http://192.168.1.13:8052/getUpdatedCharingDetails', {
+        const response = await fetch('/getUpdatedCharingDetails', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -393,7 +386,7 @@ useEffect(() => {
 
 return (
     <div className="main">
-        <div className="header fixed-top pt-3 pb-3 bg-light">
+        <div className="header fixed-top  pt-3 pb-3 bg-light">
             <div className="arrow-icon" onClick={goBack}>
                 <i className="fa-solid fa-arrow-left ml-4 mt-1"></i>
             </div>
@@ -442,7 +435,7 @@ return (
                                         <h3 className="mb-0 fw-r">
                                             <span className="count ml-1 pl-2">{energy}</span>
                                         </h3>
-                                        <p className="mt-1 m-0 ml-">Energy</p>
+                                        <p className="mt-1 m-0 ml-3">Energy</p>
                                     </div>
                                     <div className="text-center"> {/* Changed class from "text-center" to "text-center" */}
                                         <h3 className="mb-0 fw-r">
@@ -468,41 +461,50 @@ return (
                     </button>
                     
                     {/* Stop button */}
-                    <button type="submit" className="btn btn-danger stop-button shadow" style={{ background: 'linear-gradient(to top, #ed3a3ab7, #f98c8ca7)', borderRadius: '15px' }} id="stopTransactionBtn"  onClick={handleStopTransaction} disabled={ChargerStatus !== 'Charging'}>
+                    <button type="submit" className="btn btn-danger border-0 stop-button shadow" style={{ background: 'linear-gradient(to top, #ed3a3ab7, #f98c8ca7)', borderRadius: '15px' }} id="stopTransactionBtn"  onClick={handleStopTransaction} disabled={ChargerStatus !== 'Charging'}>
                         <i className="bi bi-stop-fill mr-2"></i> Stop
                     </button>
                 </div>
-                <div className="text-center pt-5">
-                <button className="btn text-danger stop-button shadow" style={{ borderColor: 'red', borderRadius: '15px' }} type='submit' onClick={toggleTableVisibility}>
+                <div className="text-center pt-5 ">
+                <button className="btn text-danger stop-button " style={{ borderColor: 'red', borderRadius: '15px' }} type='submit' onClick={toggleTableVisibility}>
                     <span>{isTableVisible ? 'Hide Error History' : 'Show Error History'}</span>
                     </button>
                     </div>
                     {isTableVisible && (
-                        <div className="container-fluid ml-">
+                    <div className="container-fluid ">
                         <Row>
-                            {/* First row with three cards */}
-                            <Col sm={12}>
-                                <div className="card bg-light mt-5  shadow" style={{ width: '100%', borderRadius: '15px' }}>
-                                    <div className="card-body">
-                                        <div className="row">
-                                            <div className="col-6">
-                                                <h4 className="mb-2">
-                                                    <span className="count">Input Power Failure</span>
-                                                </h4>
-                                                <p className="mb-0">18/03/2024 16:46:38</p>
-                                            </div>
-                                            <div className="col-6 d-flex align-items-center justify-content-end">
-                                                <h5 className="mb-4  mt-3 text-danger">inputpowerfailure</h5>
-                                            </div>
+                        {/* First row with three cards */}
+                        <Col sm={12}>
+                            <div className="card bg-light mt-5 shadow border-danger" style={{ width: '100%', borderRadius: '15px' }}>
+                            <div className="card-body ">
+                                <div className="row">
+                                {historys.length > 0 ? (
+                                    historys.map((entry) => (
+                                    <React.Fragment key={entry.serialNumber}>
+                                        <div className="col-6">
+                                        <h4 className="mb-2">
+                                            <span className="count">{entry.chargerStatus}</span>
+                                        </h4>
+                                        <p className="mb-0">{entry.currentTime}</p>
                                         </div>
+                                        <div className="col-6 d-flex align-items-center justify-content-end">
+                                        <h5 className="mb-4 mt-3 text-danger">{entry.errorCode}</h5>
+                                        </div>
+                                    </React.Fragment>
+                                    ))
+                                ) : (
+                                    <div className="col-12 text-center text-dark ">
+                                    <h4 style={{ marginTop: '10px' }}>No Error Found</h4>
                                     </div>
+                                )}
                                 </div>
-                            </Col>
+                            </div>
+                            </div>
+                        </Col>
                         </Row>
                     </div>
-
-                    )}
-                <div className="card mt-5 border-black">
+                )}
+                <div className="card mt-5 mb-5 border-black">
                     <div className="card-header border-dark-subtle">
                     <b>THRESHOLD LEVEL</b>
                     </div>
@@ -526,9 +528,8 @@ return (
             </div>
         {/* Footer */}
         <Footer userInfo={userInfo} handleLogout={handleLogout} />
-
-                {/* Alert success message start */}
-                {successData && (
+        {/* Alert success message start */}
+        {successData && (
             <div className="alert-overlay">
                 <div className="alert success alerts" style={{width:'500px', textAlign:'center'}}>
                 <span className="alertClose" onClick={closeAlertSuccess}>X</span>
@@ -551,47 +552,54 @@ return (
             
             {/* Alert charger update Session Price To User start*/}
             {showAlert && (
-            <div className="alert-overlay">
-                <div className="alert success alerts showAlert" style={{borderRadius:'25px'}}>
-                <span className="alertClose" onClick={handleCloseAlert}>X</span>
+    <div className="alert-overlay">
+        <div className="card custom-card bg-lightblue mt-5 shadow">
+            <div className="card-body">
+                <button className="close" onClick={handleCloseAlert} aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <div className="mb-4 text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="text-success" width="55" height="55"  fill="currentColor"  viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" className="text-success" width="55" height="55" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                     </svg>
                 </div>
                 <div className="text-center">
-                    <h2 className="text-color">Charging Done !</h2>
-                    <div className="row text-padding"> 
-                    <div className="col-sm-6">
-                        <span className="alertText"><strong>ChargerID</strong></span>
-                        <p>{chargingSession.ChargerID}</p>
+                    <h2 className="text-dark">Charging Done!</h2>
+                    <div className="row text-padding">
+                        <div className="col-sm-6">
+                            <span className="alertText"><strong>Charger ID:</strong></span>
+                            <p className="text-dark">{chargingSession.ChargerID}</p>
+                        </div>
+                        <div className="col-sm-6">
+                            <span className="alertText"><strong>Start Time:</strong></span>
+                            <p className="text-dark">{chargingSession.StartTimestamp && new Date(chargingSession.StartTimestamp).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</p>
+                        </div>
+                        <div className="col-sm-6">
+                            <span className="alertText"><strong>Stop Time:</strong></span>
+                            <p className="text-dark">{chargingSession.StopTimestamp && new Date(chargingSession.StopTimestamp).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' })}</p>
+                        </div>
+                        <div className="col-sm-6">
+                            <span className="alertText"><strong>Unit Consumed:</strong></span>
+                            <p className="text-dark">{chargingSession.Unitconsumed}</p>
+                        </div>
+                        <div className="col-sm-6">
+                            <span className="alertText"><strong>Charging Price:</strong></span>
+                            <p className="text-dark"><strong>{chargingSession.price}</strong></p>
+                        </div>
+                        <div className="col-sm-6">
+                            <span className="alertText"><strong>Available Balance:</strong></span>
+                            <p className="text-dark">{updatedUser.walletBalance}</p>
+                        </div>
                     </div>
-                    <div className="col-sm-6">
-                        <span className="alertText"><strong>Start Time</strong></span>
-                        <p>{chargingSession.StartTimestamp && new Date(chargingSession.StartTimestamp).toLocaleString('en-US', {timeZone: 'Asia/Kolkata'})}</p>
-                    </div>
-                    <div className="col-sm-6">
-                        <span className="alertText"><strong>Stop Time</strong></span>
-                        <p>{chargingSession.StopTimestamp && new Date(chargingSession.StopTimestamp).toLocaleString('en-US', {timeZone: 'Asia/Kolkata'})}</p>
-                    </div>
-                    <div className="col-sm-6">
-                        <span className="alertText"><strong>Unit Consumed</strong></span>
-                        <p>{chargingSession.Unitconsumed}</p>
-                    </div>
-                    <div className="col-sm-6">
-                        <span className="alertText"><strong>Charging Price</strong></span>
-                        <p className="text-color"><strong>{chargingSession.price}</strong></p>
-                    </div>
-                    <div className="col-sm-6">
-                        <span className="alertText"><strong>Available Balance</strong></span>
-                        <p>{updatedUser.walletBalance}</p>
-                    </div>
-                    </div>
-                
-                </div>
                 </div>
             </div>
-            )}
+        </div>
+    </div>
+)}
+
+
+
+
             {/* Alert charger update Session Price To User end*/}
 
             {/* Alert error message start */}

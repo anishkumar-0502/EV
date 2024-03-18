@@ -8,6 +8,7 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest }) => {
     const [searchChargerID, setChargerID] = useState('');  
     const history = useHistory();
     
+    // Handle Searching Charger with ChargerID
     const handleSearch = async(e) => {
         e.preventDefault();
         const result = await handleSearchRequest(e,searchChargerID);

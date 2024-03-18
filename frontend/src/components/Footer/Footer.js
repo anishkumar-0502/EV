@@ -17,7 +17,7 @@ const Footer = () => {
                 {/* Home */}
                 <div className="d-flex flex-column align-items-center">
                         <Link
-                            className={`text-decoration-none text-dark text-${location.pathname === '/Home' ? 'dark' : 'light'} ${location.pathname === '/Home' ? 'fw-bold' : ''}`}
+                            className={`text-decoration-none text-dark text-${location.pathname === '/Home' || location.pathname === '/Charging' ? 'dark' : 'light'} ${location.pathname === '/Home' ? 'fw-bold' : ''}`}
                             to="/Home"
                         >
                         <i className="fas fa-home fa-2x mb-1"></i>
@@ -50,7 +50,7 @@ const Footer = () => {
                     {/* Profile */}
                     <div className="d-flex flex-column align-items-center">
                         <Link
-                            className={`text-decoration-none text-dark text-${location.pathname === '/Profile' ? 'dark' : 'light'} ${location.pathname === '/Profile' ? 'fw-bold' : ''}`}
+                            className={`text-decoration-none text-dark text-${location.pathname === '/Profile' || location.pathname === '/settings' || location.pathname === '/help' ? 'dark' : 'light'} ${location.pathname === '/Profile' ? 'fw-bold' : ''}`}
                             to="/Profile"
                         >
                             <i className="fas fa-user-circle fa-2x mb-1 "></i>

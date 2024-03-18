@@ -10,7 +10,8 @@ import Home from './page/Home';
 import Wallet from './page/Wallet/Wallet';
 import History from './page/History/History';
 import Profile from './page/Profile/Profile';
-
+import Settings from './page/Profile/Settings/Settings';
+import Help from './page/Profile/Help/Help';
 import Charging from './page/ChargeingSession/Charging';
 
 const App = () => {
@@ -84,7 +85,7 @@ const App = () => {
 
     const [walletBalance, setWalletBalance] = useState(null);
 
-      // Get user wallet balance
+  // Get user wallet balance
   const fetchWallletBal = async (Username) => {
     try {
       const response = await fetch(`/GetWalletBalance?username=${Username}`);
@@ -95,15 +96,16 @@ const App = () => {
     }
   };
     
-// Function to handle the "Back" button click
-async function handleSearchBox(ChargerID) {
-  setSearchChargerID('');
-  stopTimeout();
-  await EndChargingSession(ChargerID);
-}
+  // Function to handle the "Back" button click
+  async function handleSearchBox(ChargerID) {
+    setSearchChargerID('');
+    stopTimeout();
+    await EndChargingSession(ChargerID);
+  }
 
   return (
     <Router>
+      {/* Login Route */}
       <Route exact path="/">
           {loggedIn ? <Redirect to="/Home" /> : <Login handleLogin={handleLogin}  userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />}
         </Route>
@@ -132,8 +134,14 @@ async function handleSearchBox(ChargerID) {
           <Redirect to="/" />
         )}
       </Route>
+
+      {/* Wallet Route */}
       <Route  path="/Wallet" component={Wallet} />
+
+      {/* History Route */}
       <Route  path="/History" component={History} />
+      
+      {/* Profile Route */}
       <Route path="/Profile">
         {loggedIn ? (
           initialLoad ? (
@@ -145,6 +153,31 @@ async function handleSearchBox(ChargerID) {
           <Redirect to="/" />
         )}
       </Route>
+      <Route path="/settings" >
+        {loggedIn ? (
+          initialLoad? (
+            <Settings userInfo={userInfo}  />
+          ) : (
+            <Settings userInfo={userInfo} setInitialLoad={setInitialLoad} />
+          )
+          ) : (
+            <Redirect to="/" />
+        )
+          }
+      </Route>
+      <Route path="/help" >
+        {loggedIn ? (
+          initialLoad? (
+            <Help userInfo={userInfo}  />
+          ) : (
+            <Help userInfo={userInfo} setInitialLoad={setInitialLoad} />
+          )
+          ) : (
+            <Redirect to="/" />
+        )
+          }
+      </Route>
+
       </Router>
   );
 };

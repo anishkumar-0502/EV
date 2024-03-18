@@ -1,0 +1,40 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 80%;
+  }
+  
+  .left-side {
+    width: 40%;
+  }
+  
+  .right-side {
+    width: 50%;
+  }
+  
+  .details {
+    margin-bottom: 20px;
+  }
+  
+  .topic {
+    font-weight: bold;
+  }
+  
+  .text {
+    margin-top: 5px;
+  }
+  
+  .topic-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  

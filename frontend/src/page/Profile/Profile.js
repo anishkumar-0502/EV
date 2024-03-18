@@ -8,6 +8,12 @@ import { Link } from 'react-router-dom';
 const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
     const ChargerID = setSearchChargerID;
     const history = useHistory();
+    const Username = userInfo.username;
+    
+    const navigatesettings = async (e,userInfo) => {
+      e.preventDefault();
+      history.push('./settings' ,{Username})
+    }
 
     // Logout server and client side
     const handleLogouts = async () => {
@@ -72,7 +78,7 @@ const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
         <div className="sections">
           <div className="section1">
             <Link to="/settings">
-              <i className="fa-solid fa-gear"> </i>
+            <i className="fa-solid fa-gear" onClick={() => navigatesettings({Username})}> </i>
               <span> Settings</span>
             </Link>
           </div>
@@ -90,10 +96,8 @@ const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
           </div>
         </div>
       </div>
-
-
-                {/* Footer */}
-                <Footer userInfo={userInfo} handleLogout={handleLogout} />
+        {/* Footer */}
+        <Footer userInfo={userInfo} handleLogout={handleLogout} />
     </div>
   );
 };
