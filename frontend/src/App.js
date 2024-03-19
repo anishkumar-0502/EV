@@ -12,7 +12,9 @@ import History from './page/History/History';
 import Profile from './page/Profile/Profile';
 import Settings from './page/Profile/Settings/Settings';
 import Help from './page/Profile/Help/Help';
-import Charging from './page/ChargeingSession/Charging';
+import Charging from './page/ChargingSession/Charging';
+import PaymentSuccess from './page/Wallet/PaymentSuccess';
+import PaymentUnsuccess from './page/Wallet/PaymentUnsuccess'; 
 
 const App = () => {
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
@@ -107,7 +109,7 @@ const App = () => {
     <Router>
       {/* Login Route */}
       <Route exact path="/">
-          {loggedIn ? <Redirect to="/Home" /> : <Login handleLogin={handleLogin}  userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />}
+          {loggedIn ? <Redirect to="/Home" /> : <Login handleLogin={handleLogin}  userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} handleSearchBox={handleSearchBox}/>}
         </Route>
         <Route  path="/register" component={register} />
 
@@ -115,9 +117,9 @@ const App = () => {
       <Route path="/Home">
         {loggedIn ? (
           initialLoad ? (
-            <Home userInfo={userInfo} handleLogout={handleLogout} setSearchChargerID={setSearchChargerID} handleSearchRequest={handleSearchRequest}/>
+            <Home userInfo={userInfo} handleLogout={handleLogout} setSearchChargerID={setSearchChargerID} handleSearchRequest={handleSearchRequest} handleSearchBox={handleSearchBox}/>
           ) : (
-            <Home userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} handleSearchRequest={handleSearchRequest}/>
+            <Home userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} handleSearchRequest={handleSearchRequest} handleSearchBox={handleSearchBox}/>
           )
         ) : (
           <Redirect to="/" />
@@ -187,6 +189,15 @@ const App = () => {
           }
       </Route>
 
+      {/* Redirect to PaymentSuccess if logged in, otherwise show Login */}
+      <Route path="/PaymentSuccess">
+        {loggedIn ? <PaymentSuccess userInfo={userInfo}  handleLogout={handleLogout} /> : <Redirect to="/" />}
+      </Route>
+
+      {/* Redirect to PaymentUnsuccess if logged in, otherwise show Login */}
+      <Route path="/PaymentUnsuccess">
+        {loggedIn ? <PaymentUnsuccess userInfo={userInfo}  handleLogout={handleLogout} /> : <Redirect to="/" />}
+      </Route>
       </Router>
   );
 };

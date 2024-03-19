@@ -21,6 +21,10 @@ const Charging = ({ userInfo, EndChargingSession,handleLogout,isTimeoutRunning,h
         history.goBack();
     };
 
+    async function killChargerID(){
+        await handleSearchBox(ChargerID);
+    }
+
     // Alert message ( success, error)
     const [successData, setShowAlertsSuccess] = useState(false);
     const closeAlertSuccess = () => {
@@ -525,8 +529,6 @@ return (
                     </div>
                 </div>
             </div>
-        {/* Footer */}
-        <Footer userInfo={userInfo} handleLogout={handleLogout} />
         {/* Alert success message start */}
         {successData && (
             <div className="alert-overlay">
@@ -611,6 +613,9 @@ return (
             </div>
         )}
         {/* Alert error message end*/}
+        {/* Footer */}
+        <Footer userInfo={userInfo} handleLogout={handleLogout} killChargerID={killChargerID} ChargerID={ChargerID}/>
+        
     </div>
 );
 

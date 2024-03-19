@@ -50,3 +50,54 @@
     box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
     color: #FFFFFF;
 }
+.button-46 {
+    align-items: center;
+    background-color: #E5F4E2; /* Adjusted green shade */
+    background-position: 0 0;
+    border: 1px solid #C7E0BC; /* Adjusted border color */
+    border-radius: 11px;
+    box-sizing: border-box;
+    color: #1F8A3D; /* Adjusted text color */
+    cursor: pointer;
+    display: flex;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 33.4929px;
+    list-style: outside url(https://www.smashingmagazine.com/images/bullet.svg) none;
+    padding: 2px 12px;
+    text-align: left;
+    text-decoration: none;
+    text-shadow: none;
+    text-underline-offset: 1px;
+    transition: border .2s ease-in-out, box-shadow .2s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    word-break: break-word;
+}
+
+.button-46:active,
+.button-46:hover,
+.button-46:focus {
+    outline: 0;
+}
+
+.button-46:active {
+    background-color: #1F8A3D; /* Adjusted background color */
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
+    color: #FFFFFF;
+}
+
+.button-46:hover {
+    background-color: #D7F0D5; /* Adjusted hover background color */
+    border-color: #9ED7A4; /* Adjusted hover border color */
+}
+
+.button-46:active:hover,
+.button-46:focus:hover,
+.button-46:focus {
+    background-color: #1F8A3D; /* Adjusted background color */
+    box-shadow: rgba(0, 0, 0, 0.12) 0 1px 3px 0 inset;
+    color: #FFFFFF;
+}
