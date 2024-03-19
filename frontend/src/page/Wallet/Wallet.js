@@ -1,17 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect  } from 'react';
+import React, { useState, useEffect  } from 'react';
 import Footer from '../../components/Footer/Footer'
 import { useHistory } from 'react-router-dom';
 import "./Wallet.css";
+import { Row, Col } from 'react-bootstrap';
+
 const Wallet = ({ userInfo, handleLogout ,fetchWallletBal, walletBalance}) => {
+    const [transactionDetails, setTransactionDetails] = useState('');
     const Username = userInfo.username;
     const history = useHistory();
     // Get user wallet balance
 
     useEffect(() => {
         fetchWallletBal(Username);
-      }, [Username]);
+    }, [Username]);
+    
+    const fetchTransactionDetails = async (Username) => {
+    try {
+        const response = await fetch(`/getTransactionDetails?username=${Username}`);
+        const data = await response.json();
+        setTransactionDetails(data.value);
+    } catch (error) {
+        console.error('Error fetching transaction details:', error);
+    }
+    };
+
+    useEffect(() => {
+        fetchTransactionDetails(Username);
+    }, [Username]);
+    
     
 return (
     <div className="main">
@@ -63,17 +81,62 @@ return (
                     <button type="submit" value="2000" name="amount" className="button-45">Rs.2000</button>
                     </div>
                     <input type="hidden" name="RCuser" value={Username} /></form>
-                <form action="http://122.166.210.142:8052/pay" method="get" className="d-flex flex-column" style={{ paddingTop: '10px' }}>
+                <form action="http://122.166.210.142:8052/pay" method="get" className="d-flex flex-column contact-form mt-3" style={{ paddingTop: '10px' }}>
                     <div className="d-flex justify-content-center">
-                    <input type="number" min="500" name="amount" className="form-control inputBorder text-center" placeholder="Enter Amount" required />&nbsp;
+                    <input type="number" min="500" name="amount" className="form-control  text-center" placeholder="Enter Amount" required />&nbsp;
                     <button type="submit" className="button-br btn btn-outline-success">Submit</button>
                     </div>
+                    {/* <div className="form-field col-lg-6">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <div className="input-group">
+                            <input
+                                className="input-text js-input  "
+                                id="text"
+                                required
+                            />
+                            </div>
+                        </div> */}
                     <input type="hidden" name="RCuser" value={Username} />
                 </form>
             </div>
             <div className="mt-5 custom-container"> 
-            <h3 className="card-title ml-1"><b>History</b><i className="fa-solid fa-clock-rotate-left ml-2" style={{ fontSize: '1.3rem' }}></i></h3>
+    <h3 className="card-title ml-1"><b>History</b><i className="fa-solid fa-clock-rotate-left ml-2" style={{ fontSize: '1.3rem' }}></i></h3>
+    <Row>
+        <Col sm={12}>
+            <div className="card bg-light mt-4 mb-5 shadow" style={{ width: '100%', borderRadius: '15px' }}>
+                <div className="card-body">
+                    <div className="row">
+                        {Array.isArray(transactionDetails) && transactionDetails.length > 0 ? (
+                            transactionDetails.map((transactionItem, index) => (
+                                <React.Fragment key={transactionItem.serialNumber}>
+                                    <div className="col-7">
+                                        <h4 className="mb-2">
+                                            <b><span className="count">{transactionItem.status ? transactionItem.status : "-"}</span></b>
+                                        </h4>
+                                        <p className="mb-0" style={{ fontSize: "0.8rem" }}>{transactionItem.time ? new Date(transactionItem.time).toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }) : "-"}</p>
+                                    </div>
+                                    <div className="col-5 d-flex align-items-center justify-content-end">
+                                        <h5 className="mb-4 mt-3" style={{ color: transactionItem.status === 'Credited' ? 'green' : transactionItem.status === 'Deducted' ? 'red' : 'black' }}> {transactionItem.amount ? (transactionItem.status === 'Credited' ? "+ Rs. " + transactionItem.amount : transactionItem.status === 'Deducted' ? "- Rs. " + transactionItem.amount : "-") : "-"}</h5>
+                                    </div>
+                                    {index < transactionDetails.length - 1 && (
+                                        <div className="col-12">
+                                            <hr style={{ margin: "10px 0" }} />
+                                        </div>
+                                    )}
+                                </React.Fragment>
+                            ))
+                        ) : (
+                            <div className="col-12 text-center text-dark">
+                                <h4 style={{ marginTop: '10px' }}>No Error Found</h4>
+                            </div>
+                        )}
+                    </div>
+                </div>
             </div>
+        </Col>
+    </Row>
+</div>
+
         </div>
 
         {/* Footer */}
