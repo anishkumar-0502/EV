@@ -62,14 +62,20 @@ const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
   
           <div className="wallet-container mt-4">
             <div className="cards">
-              <div className="card1">
-                <i className="fa-solid fa-wallet" />
-                <span> Wallet</span>
-              </div>
-              <div className="card2">
-                  <i className="fa-solid fa-clock-rotate-left"></i>
-                <span> Session</span>
-              </div>
+            <Link to="/Wallet" className="text-black">
+            <div className="card1">
+              <i className="fa-solid fa-wallet mb-1" />
+              <span>Wallet</span>
+            </div>
+            </Link>
+
+              <Link to="/History" className="text-black">
+                <div className="card2">
+                    <i className="fa-solid fa-clock-rotate-left mb-1"></i>
+                  <span>History</span>
+                </div>
+              </Link>
+
             </div>
           </div>
         </div>

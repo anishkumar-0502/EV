@@ -9,6 +9,7 @@ import register from './page/Auth/Register/Register';
 import Home from './page/Home';
 import Wallet from './page/Wallet/Wallet';
 import History from './page/History/History';
+import SessionDetails from './page/History/SessionDetails';
 import Profile from './page/Profile/Profile';
 import Settings from './page/Profile/Settings/Settings';
 import Help from './page/Profile/Help/Help';
@@ -150,8 +151,30 @@ const App = () => {
         )}
       </Route>
       {/* History Route */}
-      <Route  path="/History" component={History} />
+      <Route path="/History">
+        {loggedIn ? (
+          initialLoad ? (
+            <History userInfo={userInfo} handleLogout={handleLogout}  />
+          ) : (
+            <History userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad} />
+          )
+        ) : (
+          <Redirect to="/" />
+        )}
+      </Route>
       
+      {/* SessionDetails Route*/}
+      <Route  path="/SessionDetails" >
+        {loggedIn? (
+          initialLoad? (
+            <SessionDetails userInfo={userInfo} handleLogout={handleLogout}  />
+          ) : (
+            <SessionDetails userInfo={userInfo} handleLogout={handleLogout} setInitialLoad={setInitialLoad}  />
+          )
+          ) : (
+            <Redirect to="/" />
+          )}
+      </Route>
       {/* Profile Route */}
       <Route path="/Profile">
         {loggedIn ? (

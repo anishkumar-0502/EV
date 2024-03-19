@@ -4,15 +4,17 @@ import React  from 'react';
 import "./Footer.css";
 import { Link, useLocation } from 'react-router-dom';
 
-const Footer = ({killChargerID,ChargerID}) => {
-    // Get the current location using useLocation hook
+const Footer = ({ killChargerID,ChargerID}) => {
+
     const location = useLocation();
+
     const KillCharger = async() => {
         if(ChargerID){
             await killChargerID();
         } 
     };
-   
+
+
     return (
         <footer className="bg-light text-center fixed-bottom border-top" style={{ borderRadius: '30px' }}>
             {/* Grid container */}
@@ -45,7 +47,7 @@ const Footer = ({killChargerID,ChargerID}) => {
                     {/* History Sessions */}
                     <div className="d-flex flex-column align-items-center">
                         <Link
-                            className={`text-decoration-none text-dark text-${location.pathname === '/History' ? 'dark' : 'light'} ${location.pathname === '/History' ? 'fw-bold' : ''}`}
+                            className={`text-decoration-none text-dark text-${location.pathname === '/History' || location.pathname === '/sessionDetails' ? 'dark' : 'light'} ${location.pathname === '/History' ? 'fw-bold' : ''}`}
                             to="/History"  onClick={KillCharger}
                         >
                             <i className="fas fa-history fa-2x mb-1"></i>
