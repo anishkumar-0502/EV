@@ -154,24 +154,24 @@ const Settings = ({ userInfo ,handleLogout}) => {
                 <h3><b>Settings</b></h3>
             </div>
         </div>
-      <div className="form mt-3" style={{ borderRadius: "20px", boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.2)" }}>
+      <div className="form mt-5" >
 
         {/* new form */}
         <form className="contact-form row" onSubmit={handleUpdate}>
-          <div className="form-field col-lg-6">
+          <div className="form-field col-lg-6"  style={{marginTop:"0px"}}>
             <label htmlFor="username" className="form-label">Username</label>
-            <input type="text" id="username" name="updateUsername" className="input-text js-input" value={userName || ''} readOnly required />
+            <input type="text" id="username" name="updateUsername" className="input-text js-input" style={{borderColor:"lightgrey"}} value={userName || ''} readOnly required />
           </div>
-          <div className="form-field col-lg-6">
+          <div className="form-field col-lg-6"  style={{marginTop:"0px"}}>
             <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
-            <input type="text" id="phoneNumber" name="updatePhone" className="input-text js-input" value={userPhone || ''} onChange={(e) => setUserPhone(e.target.value)} required />
+            <input type="text" id="phoneNumber" name="updatePhone" className="input-text js-input"  style={{borderColor:"lightgrey"}} value={userPhone || ''} onChange={(e) => setUserPhone(e.target.value)} required />
           </div>
-          <div className="form-field col-lg-6">
+          <div className="form-field col-lg-6"  style={{marginTop:"0px"}}>
             <label htmlFor="password" className="form-label">Password</label>
             <div className="otp-field mb-4">
               {otpFields.map((digit, index) => (
                 <input
-                  style={{ textAlign: "center" }}
+                  style={{ textAlign: "center" , borderColor:"lightgrey" }}
                   key={index}
                   id={`otpField${index}`}
                   type="text"
@@ -183,9 +183,9 @@ const Settings = ({ userInfo ,handleLogout}) => {
               ))}
             </div>
           </div>
-          <div className="form-field col-lg-12 d-flex flex-column align-items-center">
+          <div className="form-field col-lg-12 d-flex flex-column align-items-center"  style={{marginTop:"0px"}}>
             <div id="validationMessage" className="text-danger mb-2"></div>
-            <button type="submit" className="btn btn-primary shadow">Update User</button>
+            <button type="submit" className="log_btn" style={{Color:"#007bff" , borderRadius:"20px"}}>Update</button>
           </div>
         </form>
         {profileMessage && (

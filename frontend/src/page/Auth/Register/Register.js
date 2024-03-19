@@ -65,7 +65,7 @@ const Register = () => {
       return false;    }
 
     try {
-      const response = await axios.post('http://192.168.1.13:8052/RegisterNewUser', {
+      const response = await axios.post('/RegisterNewUser', {
         registerUsername: formattedUsername,
         registerPhone,
         registerPassword: registerPasswords.join(''),
@@ -87,49 +87,56 @@ const Register = () => {
 
   return (
     <div className="container">
-      <div className="login">
+      <div className="login" style={{ boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)' }}>
         <div className="content">
           <div className="log-on border_insc">
             <div className="logo">
               <img src={logo} alt="logo" />
             </div>
-            <form onSubmit={handleRegister}>
-              <div className="form-group">
+            <form  className="contact-form row" onSubmit={handleRegister}>
+              <div className="form-field col-lg-6" style={{marginBottom:"0px"}}>
+
+              <label htmlFor="username" className="form-label">Username</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="input-text js-input"
                   name="username"
                   id="username"
-                  placeholder="Username"
+                  style={{borderColor:"lightgrey"}}
+                 
                   required
                   value={registerUsername}
                   onChange={(e) => setRegisterUsername(e.target.value)}
                 />
               </div>
-              <div className="form-group">
+              <div className="form-field col-lg-6" style={{marginBottom:"0px"}}>
+
+              <label htmlFor="phoneno" className="form-label">Phone No</label>
                 <input
                   type="tel"
-                  className="form-control"
+                  className="input-text js-input"
                   name="phone"
                   id="phone"
-                  placeholder="Phone Number"
+                  
+                  style={{borderColor:"lightgrey"}}
                   required
                   value={registerPhone}
                   onChange={(e) => setRegisterPhone(e.target.value)}
                 />
               </div>
-              <div className="form-group">
-                <div className="password-container">
+              <div className="form-field col-lg-6" style={{marginBottom:"0px"}}>
+                < label htmlFor="password" className="form-label">Password</label>
+                <div className="otp-field mb-4">
                   {passwordRefs.current.map((ref, index) => (
                     <input
                       key={index}
                       ref={ref}
                       type="password"
-                      className="form-control"
+                      className="input-text js-input"
                       name="password"
                       id={`password${index + 1}`}
                       onChange={(e) => handleChange(index, e.target.value)}
-                      style={{ textAlign: 'center', width: '50px' }}
+                      style={{ textAlign: 'center', width: '50px' ,borderColor:"lightgrey"  }}
                       maxLength={1}
                       autoComplete="off"
                       required
@@ -137,8 +144,8 @@ const Register = () => {
                     />
                   ))}
                 </div>
-              </div>
-              <button type="submit" className="log_btn" style={{ borderRadius: '10px' }}>
+              </div >
+              <button type="submit" className="log_btn" style={{ borderRadius: '10px' , width:"180px" , marginTop:"10px"}}>
                 Sign up
               </button>
             </form>
