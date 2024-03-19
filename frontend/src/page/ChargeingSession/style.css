@@ -214,3 +214,8 @@
     }
   }
 
+  .gradient-background {
+    background: linear-gradient(to top, #343e31, #f7fcf6);
+    border-radius: 15px;
+  }
+  

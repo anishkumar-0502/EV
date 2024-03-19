@@ -473,7 +473,6 @@ return (
                     {isTableVisible && (
                     <div className="container-fluid ">
                         <Row>
-                        {/* First row with three cards */}
                         <Col sm={12}>
                             <div className="card bg-light mt-5 shadow border-danger" style={{ width: '100%', borderRadius: '15px' }}>
                             <div className="card-body ">

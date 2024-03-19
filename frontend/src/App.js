@@ -136,8 +136,17 @@ const App = () => {
       </Route>
 
       {/* Wallet Route */}
-      <Route  path="/Wallet" component={Wallet} />
-
+      <Route path="/Wallet">
+        {loggedIn ? (
+          initialLoad ? (
+            <Wallet userInfo={userInfo} handleLogout={handleLogout} walletBalance={walletBalance} fetchWallletBal={fetchWallletBal} />
+          ) : (
+            <Wallet userInfo={userInfo} ChargerID={ChargerID} handleLogout={handleLogout} setInitialLoad={setInitialLoad}  walletBalance={walletBalance} fetchWallletBal={fetchWallletBal}/>
+          )
+        ) : (
+          <Redirect to="/" />
+        )}
+      </Route>
       {/* History Route */}
       <Route  path="/History" component={History} />
       
