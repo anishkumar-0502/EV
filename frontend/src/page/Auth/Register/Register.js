@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import './Register.css'; // Assuming Register.css is the CSS file for this component
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import swal from 'sweetalert';
 import logo from '../../../assets/images/EV_Logo2.png';
 
 const Register = () => {
@@ -12,14 +12,10 @@ const Register = () => {
   const history = useHistory();
   const passwordRefs = useRef(Array.from({ length: 4 }, () => React.createRef()));
   function RegError(Message){
-    Swal.fire({
-        title: "SignUp failed", 
-        text: Message,
-        icon: "error",
-        customClass: {
-            popup: 'swal-popup-center', // Center the entire popup
-            icon: 'swal-icon-center',   // Center the icon within the popup
-        },
+    swal({
+      title: "SignUp failed",
+      text: Message,
+      icon: "error",
     });
 }
   const handleChange = (index, value) => {
@@ -71,18 +67,18 @@ const Register = () => {
         registerPassword: registerPasswords.join(''),
       });
       console.log(response.data);
+      console.log(response.status);
+
       history.push('/');
+
     } catch (error) {
-      Swal.fire({
-        position: "center",
+      const msg = error.response.data;
+      swal({
+        title: "SignUp failed",
+        text: msg.message,
         icon: "error",
-        title: "SignUp failed", 
-        text: error,
-        customClass: {
-            popup: 'swal-popup-center', // Center the entire popup
-            icon: 'swal-icon-center',   // Center the icon within the popup
-        },
-    });    }
+      });
+  }
   };
 
   return (

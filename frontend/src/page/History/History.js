@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../../components/Footer/Footer';
 import { useHistory } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
+import swal from 'sweetalert';
 
 
 const History = ({ userInfo, handleLogout }) => {
@@ -45,10 +46,21 @@ const History = ({ userInfo, handleLogout }) => {
                 history.push('./sessionDetails', {matchingData});
             } else {
                 console.log('No matching data found for the given ChargerID.');
+                // swal({
+                //     title: 'Error',
+                //     text: 'No matching data found for the given ChargerID.',
+                //     icon: 'error',
+                //     button: 'OK'
+                // });
             }
         } else {
-            alert('Invalid sessionDetails or ChargerID provided.');
-        }
+            swal({
+                title: 'Error',
+                text: 'Invalid sessionDetails or ChargerID provided.',
+                icon: 'error',
+                button: 'OK'
+            });
+            }
     };
     
     

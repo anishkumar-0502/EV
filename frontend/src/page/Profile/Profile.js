@@ -35,7 +35,7 @@ const Profile = ({ userInfo,handleLogout ,setSearchChargerID}) => {
         )
   
         } catch (error) {
-          alert(error);
+          console.error(error);
         }
     };
 

@@ -16,6 +16,7 @@ import Help from './page/Profile/Help/Help';
 import Charging from './page/ChargingSession/Charging';
 import PaymentSuccess from './page/Wallet/PaymentSuccess';
 import PaymentUnsuccess from './page/Wallet/PaymentUnsuccess'; 
+import swal from 'sweetalert';
 
 const App = () => {
   const storedUser = JSON.parse(sessionStorage.getItem('user'));
@@ -60,11 +61,20 @@ const App = () => {
               }
           } else {
               const errorData = await response.json();
-              alert(errorData.message);
-          }
+              swal({
+                title: 'Error',
+                text: errorData.message,
+                icon: 'error',
+                button: 'OK'
+              });
+            }
       } catch (error) {
-          alert(error);
-      }
+        swal({
+          title: 'Error',
+          text: error,
+          icon: 'error',
+          button: 'OK'
+        });      }
   };
   const [isTimeoutRunning, setIsTimeoutRunning] = useState(false);
 

@@ -1,5 +1,5 @@
 /* eslint-disable default-case */
-import React, { useState ,useEffect,useRef } from 'react';
+import React, { useState ,useEffect, useRef } from 'react';
 import Footer from '../components/Footer/Footer';
 import EV2 from '../assets/images/EV_Logo2.png';
 import Car from '../assets/images/Car.png';
@@ -10,9 +10,7 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
     const [searchChargerID, setChargerID] = useState(''); 
     const [RecentSessionDetails, setRecentSessionDetails] = useState('');
     const Username =userInfo.username;
-    const history = useHistory();
-    
-        
+    const history = useHistory();      
 
     const fetchRecentSessionDetails = async (Username) => {
         try {
@@ -36,7 +34,6 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
             history.push('/Charging', { searchChargerID });
         }
     };
-
     
     // Handle Searching Charger with ChargerID
     const handleSearchRecent = async(e,searchChargerID) => {
@@ -47,31 +44,35 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
         }
     };
 
-    const formRef = useRef(null);
-    const handleClick = () => {
-        // Scroll to the form when the text input is clicked
-        if (formRef.current) {
-            formRef.current.scrollIntoView({ behavior: 'smooth' });
+    const headerRef = useRef();
+    const textBoxRef = useRef();
+
+    const handleTextBoxClick = () => {
+        if (headerRef.current && textBoxRef.current) {
+            const headerOffset = headerRef.current.getBoundingClientRect().top;
+            const textBoxOffset = textBoxRef.current.getBoundingClientRect().top;
+            const scrollOffset = textBoxOffset - headerOffset;
+            window.scrollTo({ top: scrollOffset, behavior: 'smooth' });
         }
     };
 
     return (
         <div className="main">
-            <div className="header fixed-top  ">
+            <div className="header fixed-top">
                 {/* Navbar */}
-                <nav className="navbar container-fluid navbar-expand-lg navbar-light bg-none shadow-none p-none fixed-top "> 
+                <nav ref={headerRef} className="navbar container-fluid navbar-expand-lg navbar-light bg-none shadow-none p-none fixed-top "> 
                     <a className="navbar-brand" href="/Home">
                         <img src={EV2} className='ml-2' alt="logo" style={{ width: '120px' }} />
                     </a>
                 </nav>
             </div>
             {/* Landing Page Image */}
-            <img src={Car} alt="landing_page_image" style={{ width: '100%', marginTop: '50px' }} />
+            <img src={Car}  alt="landing_page_image" style={{ width: '100%', marginTop: '50px' }} />
 
             {/* Form */}
-            <form onSubmit={handleSearch} className="w-100 mt-4" ref={formRef}>
-                <div className="input-group md-form form-sm form-2">
-                    <input type="text" className="form-control my-0 py-1 red-border"  onClick={handleClick} style={{ borderRadius: '500px 0 0 500px' }} id="chargerID" name="chargerID" value={searchChargerID} onChange={(e) => setChargerID(e.target.value)} placeholder="Enter DeviceID" required />
+            <form onSubmit={handleSearch} className="w-100 mt-4">
+                <div className="input-group md-form form-sm form-2" onClick={handleTextBoxClick}>
+                    <input type="text" className="form-control my-0 py-1 red-border" ref={textBoxRef} style={{ borderRadius: '500px 0 0 500px' }} id="chargerID" name="chargerID" value={searchChargerID} onChange={(e) => setChargerID(e.target.value)} placeholder="Enter DeviceID" required />
                     <div className="input-group-append">
                         <button className="input-group-text bg-success " id="basic-text1" type='submit' style={{ borderRadius: '0 500px 500px 0' }}>
                             <i className="fas fa-search text-white" aria-hidden="true"></i>

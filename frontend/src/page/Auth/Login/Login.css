@@ -83,3 +83,27 @@
   color: #007bff;
   padding: 5px;
 }
+
+/* Swal alert */
+
+.swal-button-center {
+  margin: 0 auto; /* Center the button horizontally */
+  display: block; /* Ensure button takes full width */
+}
+
+.swal-footer {
+  text-align: center; /* Center the text in the footer */
+}
+
+.swal-modal{
+  border-radius: 20px;
+  width: 260px;
+}
+
+.swal-text{
+  text-align: center;
+}
+.swal-button{
+  background-color: green;
+  border: none;
+}

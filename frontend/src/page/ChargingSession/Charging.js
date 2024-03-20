@@ -7,8 +7,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import { Row, Col } from 'react-bootstrap';
 import Car from '../../assets/images/car-2.png';
+import Swal from 'sweetalert';
 
-let globalisStarted = false;
 
 const Charging = ({ userInfo, EndChargingSession,handleLogout,isTimeoutRunning,handleSearchBox,startTimeout,stopTimeout,fetchWallletBal }) => {
     const [charging, setCharging] = useState(false);
@@ -133,7 +133,12 @@ const Charging = ({ userInfo, EndChargingSession,handleLogout,isTimeoutRunning,h
         // Start the timeout when isTimeoutRunning is true
         const id = setTimeout(() => {
             handleSearchBox(ChargerID);
-            alert('Timeout, Please re-initiate the charger !');
+            Swal({
+                title: 'Timeout',
+                text: 'Please re-initiate the charger !',
+                icon: 'warning',
+                button: 'OK'
+            });
             stopTimeout();
             history.goBack();
         }, 45000); // Example: 5 seconds delay  
@@ -147,17 +152,20 @@ const [socket, setSocket] = useState(null);
 
 // Effect to handle WebSocket connection
 useEffect(() => {
-
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // Call scrollToTop when component mounts
     scrollToTop();
-
     // Check if the socket is not already open and ChargerID is provided
-    if (!socket && ChargerID) {
-    const newSocket = new WebSocket('ws://192.168.1.3:7050');
+    if (!socket && ChargerID) {             
+        
+        //for Testing in Charger Simulator
+    // const newSocket = new WebSocket('ws://192.168.1.3:7050');
+
+        // for actual Charger
+    const newSocket = new WebSocket('ws://122.166.210.142:7050');
 
     newSocket.addEventListener('open', (event) => {
         console.log('WebSocket connection opened:', event);

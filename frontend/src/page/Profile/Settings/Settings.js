@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import swal from 'sweetalert';
 import '../Profile.css';
 import Footer from '../../../components/Footer/Footer';
 
@@ -32,10 +32,10 @@ const Settings = ({ userInfo ,handleLogout}) => {
         throw new Error('Error fetching user details');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
+      swal({
         title: 'Error',
         text: error.message,
+        type: 'error',
       });
     }
   };
@@ -107,10 +107,11 @@ const Settings = ({ userInfo ,handleLogout}) => {
 
     if (errors.length > 0) {
       // If there are errors, show them in SweetAlert
-      Swal.fire({
-        icon: 'error',
+      swal({
         title: 'Error',
-        html: errors.map(error => `<p>${error}</p>`).join(''),
+        text: errors.join('\n'),
+        type: 'error',
+        html: true
       });
       return;
     }
@@ -127,19 +128,19 @@ const Settings = ({ userInfo ,handleLogout}) => {
       if (response.ok) {
         const data = await response.json();
         // Show SweetAlert2 success message
-        Swal.fire({
-          icon: 'success',
+        swal({
           title: 'Success',
           text: data.message,
+          type: 'success',
         });
       } else {
         throw new Error('Error in updating , kindly check the credentials');
       }
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
+      swal({
         title: 'Error',
         text: error.message,
+        type: 'error',
       });
     }
   };
