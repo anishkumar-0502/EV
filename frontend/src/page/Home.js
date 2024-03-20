@@ -1,5 +1,5 @@
 /* eslint-disable default-case */
-import React, { useState ,useEffect} from 'react';
+import React, { useState ,useEffect,useRef } from 'react';
 import Footer from '../components/Footer/Footer';
 import EV2 from '../assets/images/EV_Logo2.png';
 import Car from '../assets/images/Car.png';
@@ -47,6 +47,14 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
         }
     };
 
+    const formRef = useRef(null);
+    const handleClick = () => {
+        // Scroll to the form when the text input is clicked
+        if (formRef.current) {
+            formRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
         <div className="main">
             <div className="header fixed-top  ">
@@ -61,9 +69,9 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
             <img src={Car} alt="landing_page_image" style={{ width: '100%', marginTop: '50px' }} />
 
             {/* Form */}
-            <form onSubmit={handleSearch} className="w-100 mt-4">
+            <form onSubmit={handleSearch} className="w-100 mt-4" ref={formRef}>
                 <div className="input-group md-form form-sm form-2">
-                    <input type="text" className="form-control my-0 py-1 red-border" style={{ borderRadius: '500px 0 0 500px' }} id="chargerID" name="chargerID" value={searchChargerID} onChange={(e) => setChargerID(e.target.value)} placeholder="Enter DeviceID" required />
+                    <input type="text" className="form-control my-0 py-1 red-border"  onClick={handleClick} style={{ borderRadius: '500px 0 0 500px' }} id="chargerID" name="chargerID" value={searchChargerID} onChange={(e) => setChargerID(e.target.value)} placeholder="Enter DeviceID" required />
                     <div className="input-group-append">
                         <button className="input-group-text bg-success " id="basic-text1" type='submit' style={{ borderRadius: '0 500px 500px 0' }}>
                             <i className="fas fa-search text-white" aria-hidden="true"></i>

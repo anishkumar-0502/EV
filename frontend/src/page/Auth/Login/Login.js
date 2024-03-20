@@ -67,22 +67,25 @@ const Login = ({ handleLogin }) => {
               },
               body: JSON.stringify({ loginUsername: processedLoginUsername, loginPassword }),
           });
-  
+          console.log(response);
           if (response.ok) {
               const data = await response.json();
               handleLogin(data, processedLoginUsername);
-          } 
+          } else if(response.status === 401) {
+            Swal.fire({
+              position: " top-center",
+              icon: "error",
+              title: "Login failed",
+              text:"Invalid Credentials" ,
+              customClass: {
+                  popup: 'swal-popup-center', // Center the entire popup
+                  icon: 'swal-icon-center',   // Center the icon within the popup
+              },
+          });
+          }
       } catch (error) {
-        Swal.fire({
-          position: " top-center",
-          icon: "error",
-          title: "Login failed",
-          text: "Invalid Credentials",
-          customClass: {
-              popup: 'swal-popup-center', // Center the entire popup
-              icon: 'swal-icon-center',   // Center the icon within the popup
-          },
-      });      }
+        console.log("Login  Error : ", error);
+    }
   };
 
 
