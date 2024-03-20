@@ -342,9 +342,9 @@ useEffect(() => {
     };
     // Alert message close
     const handleCloseAlert = async () => {
-        setShowAlert(false);
         await killChargerID()
         await history.goBack();
+        setShowAlert(false);
 
 
     };

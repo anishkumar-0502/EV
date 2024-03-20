@@ -98,7 +98,7 @@ return (
                             <div className="row">
                                 {Array.isArray(transactionDetails) && transactionDetails.length > 0 ? (
                                     transactionDetails.map((transactionItem, index) => (
-                                        <React.Fragment key={transactionItem.serialNumber}>
+                                        <React.Fragment key={transactionItem.index}>
                                             <div className="col-7">
                                                 <h4 className="mb-2">
                                                     <b><span className="count">{transactionItem.status ? transactionItem.status : "-"}</span></b>

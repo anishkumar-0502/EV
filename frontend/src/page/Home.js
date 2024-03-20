@@ -92,10 +92,10 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
                                         RecentSessionDetails
                                             .sort((a, b) => new Date(b.StopTimestamp) - new Date(a.StopTimestamp)) // Sort sessions in descending order by StopTimestamp
                                             .map((RecentSession, index) => (
-                                                <React.Fragment key={RecentSession.index}>
-                                                    <div className="col-12" onClick={(e) => handleSearchRecent(e,RecentSession)}>
+                                                <React.Fragment key={RecentSession.serialNumber}>
+                                                    <div className="col-12" onClick={(e) => handleSearchRecent(e,RecentSession)} >
                                                         <h5 className="mb-2">
-                                                            <span className="count">{RecentSession}</span>
+                                                            <span className="count" >{RecentSession}</span>
                                                         </h5>
                                                     </div>
                                                     

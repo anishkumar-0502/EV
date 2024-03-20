@@ -17,9 +17,26 @@ import Charging from './page/ChargingSession/Charging';
 import PaymentSuccess from './page/Wallet/PaymentSuccess';
 import PaymentUnsuccess from './page/Wallet/PaymentUnsuccess'; 
 import swal from 'sweetalert';
-
+import Cookies from 'js-cookie';
 const App = () => {
-  const storedUser = JSON.parse(sessionStorage.getItem('user'));
+// Retrieve user data from session storage
+const storedUserData = localStorage.getItem('user');
+// Retrieve user data from cookies
+const storedUserCookie = Cookies.get('user');
+let storedUser;
+// Check if user data exists in session storage
+if (storedUserData) {
+  storedUser = JSON.parse(storedUserData); // Parse the user data as JSON
+}
+// Check if user data exists in cookies
+else if (storedUserCookie) {
+  storedUser = JSON.parse(storedUserCookie); // Directly assign storedUserCookie to storedUser
+  console.log("Parsed stored user cookie:", storedUser);
+}
+// If user data doesn't exist in either storage or cookies
+else {
+  storedUser = null; // Set storedUser to null
+}
   const [loggedIn, setLoggedIn] = useState(!!storedUser);
   const [ChargerID, setSearchChargerID] = useState('');
   const [userInfo, setUserInfo] = useState(storedUser || {});
@@ -33,15 +50,17 @@ const App = () => {
   const handleLogin = (data, username) => {
     setUserInfo({ username });
     setLoggedIn(true);
-    sessionStorage.setItem('user', JSON.stringify({ username }));
+    localStorage.setItem('user', JSON.stringify({ username }));
+    Cookies.set('user', JSON.stringify({ username }), { expires: 7 }); // Store user info in cookies for 7 days
   };
 
   const handleLogout = () => {
     setLoggedIn(false);
     setUserInfo({});
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
+    Cookies.remove('user');
   };
-  
+
     // Search charger Id
     const handleSearchRequest = async (e,searchChargerID) => {
       e.preventDefault();
