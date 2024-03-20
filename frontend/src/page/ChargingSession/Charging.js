@@ -162,10 +162,8 @@ useEffect(() => {
     if (!socket && ChargerID) {             
         
         //for Testing in Charger Simulator
-    // const newSocket = new WebSocket('ws://192.168.1.3:7050');
+    const newSocket = new WebSocket('ws://192.168.1.3:7050');
 
-        // for actual Charger
-    const newSocket = new WebSocket('ws://122.166.210.142:7050');
 
     newSocket.addEventListener('open', (event) => {
         console.log('WebSocket connection opened:', event);
