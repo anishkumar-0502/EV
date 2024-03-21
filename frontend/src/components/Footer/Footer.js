@@ -16,7 +16,7 @@ const Footer = ({ killChargerID,ChargerID}) => {
 
 
     return (
-        <footer className="bg-light text-center fixed-bottom border-top" style={{ borderRadius: '30px' }}>
+        <footer className="bg-light text-center  m-2 fixed-bottom  border" style={{ borderRadius: '100px' }}>
             {/* Grid container */}
             <div className="container-fluid">
                 {/* Section: Social media */}
