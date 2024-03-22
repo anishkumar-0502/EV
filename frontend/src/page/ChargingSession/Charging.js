@@ -10,7 +10,7 @@ import Car from '../../assets/images/car-2.png';
 import Swal from 'sweetalert';
 
 
-const Charging = ({ userInfo, EndChargingSession,handleLogout,isTimeoutRunning,handleSearchBox,startTimeout,stopTimeout,fetchWallletBal }) => {
+const Charging = ({ userInfo,handleLogout,isTimeoutRunning,handleSearchBox,startTimeout,stopTimeout,fetchWallletBal }) => {
     const [charging, setCharging] = useState(false);
     const [ChargerID, setChargerID] = useState(false);
     const [historys, setHistory] = useState([]);
@@ -143,14 +143,14 @@ const Charging = ({ userInfo, EndChargingSession,handleLogout,isTimeoutRunning,h
         // Start the timeout when isTimeoutRunning is true
         const id = setTimeout(() => {
             handleSearchBox(ChargerID);
+            stopTimeout();
+            history.goBack();
             Swal({
                 title: 'Timeout',
                 text: 'Please re-initiate the charger !',
                 icon: 'warning',
                 button: 'OK'
             });
-            stopTimeout();
-            history.goBack();
         }, 45000); // Example: 5 seconds delay  
         // Cleanup function to stop the timeout when component unmounts or isTimeoutRunning becomes false
         return () => clearTimeout(id);
@@ -171,8 +171,8 @@ useEffect(() => {
     // Check if the socket is not already open and ChargerID is provided
     if (!socket && ChargerID) {             
         
-        //for Testing in Charger Simulator
-    const newSocket = new WebSocket('ws://192.168.1.3:7050');
+    //for Testing in Charger Simulator
+    const newSocket = new WebSocket('ws://122.166.210.142:7050');
 
 
     newSocket.addEventListener('open', (event) => {
@@ -220,105 +220,104 @@ useEffect(() => {
         const { DeviceID, message } = parsedMessage;
         if (DeviceID === ChargerID) {
             switch (message[2]) {
-            case 'StatusNotification':
-                ChargerStatus = message[3].status;
-                CurrentTime = formatTimestamp(message[3].timestamp);
-                errorCode = message[3].errorCode;
-                console.log(`ChargerID ${DeviceID}: {"status": "${ChargerStatus}","time": "${CurrentTime}","error": "${errorCode}"}`);
-                if(ChargerStatus === 'Preparing'){
-                stopTimeout();
-                }
-                if(ChargerStatus === 'Available'){
-                startTimeout();
-                }
-                if(ChargerStatus === 'Charging'){
-                //start
-                // Store isStarted in localStorage
-                setIsStarted(true);
-                localStorage.setItem("isStarted", true);
-
-                handleAlertLodingStop();
-                }
-                // Update state variables to maintain the history
-                if (errorCode !== 'NoError') {
-                setHistory((historys) => [
-                    ...historys,
-                    {
-                    serialNumber: historys.length + 1,
-                    currentTime: CurrentTime,
-                    chargerStatus: ChargerStatus,
-                    errorCode: errorCode,
-                    },
-                ]);
-                setCheckFault(true);
-                } else {
-                setCheckFault(false);
-                }
-            break;
-    
-            case 'Heartbeat':
-            CurrentTime = getCurrentTime();
-            setTimestamp(CurrentTime);
-            break;
-    
-            case 'MeterValues':
-            const meterValues = message[3].meterValue;
-            const sampledValue = meterValues[0].sampledValue;
-            const formattedJson = convertToFormattedJson(sampledValue);
-    
-            // You can use state to store these values and update the state
-            const updatedValues = {
-                voltage: formattedJson['Voltage'],
-                current: formattedJson['Current.Import'],
-                power: formattedJson['Power.Active.Import'],
-                energy: formattedJson['Energy.Active.Import.Register'],
-                frequency: formattedJson['Frequency'],
-                temperature: formattedJson['Temperature'],
-            };
-            setChargerStatus('Charging');
-            setTimestamp(getCurrentTime());
-            setVoltage(updatedValues.voltage);
-            setCurrent(updatedValues.current);
-            setPower(updatedValues.power);
-            setEnergy(updatedValues.energy);
-            setFrequency(updatedValues.frequency);
-            setTemperature(updatedValues.temperature);
-                console.log(`{ "V": ${updatedValues.voltage},"A": ${updatedValues.current},"W": ${updatedValues.power},"Wh": ${updatedValues.energy},"Hz": ${updatedValues.frequency},"Kelvin": ${updatedValues.temperature}}`);
-            break;
-    
-            case 'Authorize':
-            if (checkFault === false) {
-                ChargerStatus = 'Authorized';
+                case 'StatusNotification':
+                    ChargerStatus = message[3].status;
+                    CurrentTime = formatTimestamp(message[3].timestamp);
+                    errorCode = message[3].errorCode;
+                    console.log(`ChargerID ${DeviceID}: {"status": "${ChargerStatus}","time": "${CurrentTime}","error": "${errorCode}"}`);
+                    if(ChargerStatus === 'Preparing'){
+                        stopTimeout();
+                        setIsStarted(false);
+                        localStorage.setItem("isStarted", false);
+                    }else if(ChargerStatus === 'Available'){
+                        startTimeout();
+                        setIsStarted(false);
+                        localStorage.setItem("isStarted", false);
+                    }else if(ChargerStatus === 'Charging'){
+                    
+                        // Store isStarted in localStorage
+                        setIsStarted(true);
+                        localStorage.setItem("isStarted", true);
+                        handleAlertLodingStop();
+                    }
+                    // Update state variables to maintain the history
+                    if (errorCode !== 'NoError') {
+                        setHistory((historys) => [
+                            ...historys,
+                            {
+                            serialNumber: historys.length + 1,
+                            currentTime: CurrentTime,
+                            chargerStatus: ChargerStatus,
+                            errorCode: errorCode,
+                            },
+                        ]);
+                        setCheckFault(true);
+                    } else {
+                        setCheckFault(false);
+                    }
+                break;
+        
+                case 'Heartbeat':
+                    CurrentTime = getCurrentTime();
+                    setTimestamp(CurrentTime);
+                break;
+        
+                case 'MeterValues':
+                    const meterValues = message[3].meterValue;
+                    const sampledValue = meterValues[0].sampledValue;
+                    const formattedJson = convertToFormattedJson(sampledValue);
+        
+                    // You can use state to store these values and update the state
+                    const updatedValues = {
+                        voltage: formattedJson['Voltage'],
+                        current: formattedJson['Current.Import'],
+                        power: formattedJson['Power.Active.Import'],
+                        energy: formattedJson['Energy.Active.Import.Register'],
+                        frequency: formattedJson['Frequency'],
+                        temperature: formattedJson['Temperature'],
+                    };
+                    setChargerStatus('Charging');
+                    setTimestamp(getCurrentTime());
+                    setVoltage(updatedValues.voltage);
+                    setCurrent(updatedValues.current);
+                    setPower(updatedValues.power);
+                    setEnergy(updatedValues.energy);
+                    setFrequency(updatedValues.frequency);
+                    setTemperature(updatedValues.temperature);
+                    console.log(`{ "V": ${updatedValues.voltage},"A": ${updatedValues.current},"W": ${updatedValues.power},"Wh": ${updatedValues.energy},"Hz": ${updatedValues.frequency},"Kelvin": ${updatedValues.temperature}}`);
+                break;
+        
+                case 'Authorize':
+                    if (checkFault === false) {
+                        ChargerStatus = 'Authorized';
+                    }
+                    CurrentTime = getCurrentTime();
+                break;
+        
+                case 'FirmwareStatusNotification':
+                    ChargerStatus = message[3].status.toUpperCase();
+                break;
+        
+                case 'StopTransaction':
+                    ChargerStatus = 'Finishing';
+                    CurrentTime = getCurrentTime();
+                    // Remove isStarted from localStorage
+                    setIsStarted(false);
+                    localStorage.removeItem("isStarted");
+                    handleAlertLodingStart();
+                    setTimeout(function () {
+                        updateSessionPriceToUser(ChargerID, user);
+                    }, 5000);
+                break;
+        
+                case 'Accepted':
+                ChargerStatus = 'ChargerAccepted';
+                CurrentTime = getCurrentTime();
+                break;
             }
-            CurrentTime = getCurrentTime();
-            break;
-    
-            case 'FirmwareStatusNotification':
-            ChargerStatus = message[3].status.toUpperCase();
-            break;
-    
-            case 'StopTransaction':
-            ChargerStatus = 'Finishing';
-            CurrentTime = getCurrentTime();
-            //Stop
-            // Remove isStarted from localStorage
-            setIsStarted(false);
-            localStorage.removeItem("isStarted");
-
-            handleAlertLodingStart();
-            setTimeout(function () {
-                updateSessionPriceToUser(ChargerID, user);
-            }, 5000);
-            break;
-    
-            case 'Accepted':
-            ChargerStatus = 'ChargerAccepted';
-            CurrentTime = getCurrentTime();
-            break;
-        }
         }
         if (ChargerStatus) {
-        AppendStatusTime(ChargerStatus, CurrentTime);
+            AppendStatusTime(ChargerStatus, CurrentTime);
         }
     }
 
@@ -679,74 +678,73 @@ return (
                     <span className="alertText" style={{fontSize:'20px'}}><strong style={{color:'#155724'}}>{successData}</strong></span>
                     </div>
                 </div>
-                )}
-                {/* Alert success message end */}
-                {/* Loding alert */}
-                {showAlertLoding &&  (
-                <div className="alert-overlay-loding">
-                    <div className="alert-loding success alerts" style={{width:'200px', textAlign:'center', padding:"20px"}}>
-                    <div className="spinner-border text-success" role="status" style={{fontSize:'20px'}}>
-                        <span className="visually-hidden">Loading...</span>
+            )}
+            {/* Alert success message end */}
+            {/* Loding alert */}
+                {showAlertLoding && (
+                    <div className="alert-overlay-loading" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <div className="alert-loading success alerts" style={{ width: '200px', textAlign: 'center', padding: "20px" }}>
+                            <div className="spinner-border text-success" role="status" style={{ fontSize: '20px' }}>
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
                 )}
-                {/* Loding alert */}
                 
                 {/* Alert charger update Session Price To User start*/}
                 {showAlert && (
-    <div className="alert-overlay">
-        <div className="card-deck w-75">
-            <div className="card">
-                <div className="card-body text-left">
-                    <div className="mb-4 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="text-success" width="50" height="40" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                        </svg>
+                <div className="alert-overlay" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 9999 }}>
+                    <div className="card-deck " style={{position:"fixed", width:"90%"}}  >
+                        <div className="card">
+                            <div className="card-body text-left">
+                                <div className="mb-4 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="text-success" width="50" height="40" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-center mb-4"><b>Charging Done</b></h3>
+                                <ul className="list-group">
+                                    <li className="list-group-item list-group-item-success">
+                                        <b>Charger ID</b>&nbsp;&nbsp;{chargingSession.ChargerID}
+                                    </li>
+                                    <li className="list-group-item list-group-item-success">
+                                        <b>Start Time</b>&nbsp;&nbsp;
+                                        {chargingSession.StartTimestamp && (
+                                            <span>
+                                                {new Date(chargingSession.StartTimestamp).toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' })}
+                                                <br />
+                                                <span style={{ marginLeft: '77px' }}>{new Date(chargingSession.StartTimestamp).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' })}</span>
+                                            </span>
+                                        )}
+                                    </li>
+                                    <li className="list-group-item list-group-item-success">
+                                        <b>Stop Time</b>&nbsp;&nbsp;
+                                        {chargingSession.StopTimestamp && (
+                                            <span>
+                                                {new Date(chargingSession.StopTimestamp).toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' })}
+                                                <br />
+                                                <span style={{ marginLeft: '77px' }}>{new Date(chargingSession.StopTimestamp).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' })}</span>
+                                            </span>
+                                        )}
+                                    </li>
+                                    <li className="list-group-item list-group-item-success">
+                                        <b>Unit Consumed</b>&nbsp;&nbsp;{chargingSession.Unitconsumed}
+                                    </li>
+                                    <li className="list-group-item list-group-item-success">
+                                        <b>Charging Price</b>&nbsp;&nbsp;{chargingSession.price}
+                                    </li>
+                                    <li className="list-group-item list-group-item-success">
+                                        <b>Available Balance</b>&nbsp;&nbsp;{updatedUser.walletBalance}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="card-footer d-flex justify-content-center">
+                                <button type="button" className="button-45 border-danger" id="left-panel-link" onClick={handleCloseAlert}>Close</button>
+                            </div>
+                        </div>
                     </div>
-                    <h3 className="text-center mb-4"><b>Charging Done</b></h3>
-                    <ul className="list-group">
-                        <li className="list-group-item list-group-item-success">
-                            <b>Charger ID</b>&nbsp;&nbsp;{chargingSession.ChargerID}
-                        </li>
-                        <li className="list-group-item list-group-item-success">
-                            <b>Start Time</b>&nbsp;&nbsp;
-                            {chargingSession.StartTimestamp && (
-                                <span>
-                                    {new Date(chargingSession.StartTimestamp).toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' })}
-                                    <br />
-                                    <span style={{ marginLeft: '77px' }}>{new Date(chargingSession.StartTimestamp).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' })}</span>
-                                </span>
-                            )}
-                        </li>
-                        <li className="list-group-item list-group-item-success">
-                            <b>Stop Time</b>&nbsp;&nbsp;
-                            {chargingSession.StopTimestamp && (
-                                <span>
-                                    {new Date(chargingSession.StopTimestamp).toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' })}
-                                    <br />
-                                    <span style={{ marginLeft: '77px' }}>{new Date(chargingSession.StopTimestamp).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' })}</span>
-                                </span>
-                            )}
-                        </li>
-                        <li className="list-group-item list-group-item-success">
-                            <b>Unit Consumed</b>&nbsp;&nbsp;{chargingSession.Unitconsumed}
-                        </li>
-                        <li className="list-group-item list-group-item-success">
-                            <b>Charging Price</b>&nbsp;&nbsp;{chargingSession.price}
-                        </li>
-                        <li className="list-group-item list-group-item-success">
-                            <b>Available Balance</b>&nbsp;&nbsp;{updatedUser.walletBalance}
-                        </li>
-                    </ul>
                 </div>
-                <div className="card-footer d-flex justify-content-center">
-                    <button type="button" className="button-45 border-danger" id="left-panel-link" onClick={handleCloseAlert}>Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-)}
+            )}
 
             {/* Alert charger update Session Price To User end*/}
 
