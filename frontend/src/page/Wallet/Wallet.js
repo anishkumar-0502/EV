@@ -74,14 +74,14 @@ return (
             </div>
             <div className="mt-3 custom-container"> 
                 <h3 className="card-title ml-1"><b>Recharge</b><i className="fa-solid fa-money-check-dollar ml-2 "></i></h3>          
-                <form action="http://192.168.1.3:8052/pay" method="get" className="d-flex flex-column mt-4">
+                <form action="http://122.166.210.142:8052/pay" method="get" className="d-flex flex-column mt-4">
                     <div className="d-flex justify-content-center">
                     <button type="submit" value="500" name="amount" className="button-45 mr-2">Rs.500</button>
                     <button type="submit" value="1000" name="amount" className="button-45 mr-2">Rs.1000</button>
                     <button type="submit" value="2000" name="amount" className="button-45">Rs.2000</button>
                     </div>
                     <input type="hidden" name="RCuser" value={Username} /></form>
-                <form action="http://192.168.1.3:8052/pay" method="get" className="d-flex flex-column contact-form mt-3" style={{ paddingTop: '10px' }}>
+                <form action="http://122.166.210.142:8052/pay" method="get" className="d-flex flex-column contact-form mt-3" style={{ paddingTop: '10px' }}>
                     <div className="d-flex justify-content-center">
                     <input type="number" min="500" name="amount" className="mt-1 input-text js-input col-6 text-center" placeholder="Enter Amount" required />&nbsp;
                     <button type="submit" className="button-46 ml-3">Submit</button>
