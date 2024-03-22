@@ -5,6 +5,7 @@ import EV2 from '../assets/images/EV_Logo2.png';
 import Car from '../assets/images/Car.png';
 import { Row, Col } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import $ from 'jquery';
 
 const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) => {   
     const [searchChargerID, setChargerID] = useState(''); 
@@ -47,12 +48,40 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
     const headerRef = useRef();
     const textBoxRef = useRef();
 
-    const handleTextBoxClick = () => {
-        if (headerRef.current && textBoxRef.current) {
-            const headerOffset = headerRef.current.getBoundingClientRect().top;
-            const textBoxOffset = textBoxRef.current.getBoundingClientRect().top;
-            const scrollOffset = textBoxOffset - headerOffset;
-            window.scrollTo({ top: scrollOffset, behavior: 'smooth' });
+    const handleTextBoxClick = (e) => {
+        // if (headerRef.current && textBoxRef.current) {
+        //     const headerOffset = headerRef.current.getBoundingClientRect().top;
+        //     const textBoxOffset = textBoxRef.current.getBoundingClientRect().top;
+        //     const scrollOffset = textBoxOffset - headerOffset;
+        //     window.scrollTo({ top: scrollOffset, behavior: 'smooth' });
+        // }
+        // Check if the 'fixed-top' class is already added
+        var isFixedTop = $('#search').hasClass('fixed-top');
+        // Toggle the 'fixed-top' class
+        if(isFixedTop === false){
+            $('#search').toggleClass('fixed-top container-fluid', !isFixedTop,).css({
+                // Add styles when the class is added
+                'top': isFixedTop ? '' : '0',
+                'left': isFixedTop ? '' : '0',
+                'width': isFixedTop ? '' : '100%',
+                'height': isFixedTop ? '' : '100%',
+                'background-color': isFixedTop ? '' : 'rgba(0, 0, 0, 0.5)',
+                'zIndex': isFixedTop ? '' : '9999',
+            });
+            $('#searchMargin').css('margin-top', '15px');
+        }else{
+            if(e.target.id === 'search'){
+                $('#search').removeClass('fixed-top').css({
+                    'position': '',
+                    'top': '',
+                    'left': '',
+                    'width': '',
+                    'height': '',
+                    'background-color': 'transparent', // Example background color
+                    'zIndex': '',              
+                });
+                $('#searchMargin').css('margin-top', '0px');
+            }
         }
     };
 
@@ -69,12 +98,12 @@ const Home = ({ userInfo, handleLogout,handleSearchRequest ,handleSearchBox}) =>
             {/* Landing Page Image */}
             <img src={Car}  alt="landing_page_image" style={{ width: '100%', marginTop: '50px' }} />
 
-            {/* Form */}
-            <form onSubmit={handleSearch} className="w-100 mt-4">
-                <div className="input-group md-form form-sm form-2" onClick={handleTextBoxClick}>
-                    <input type="text" className="form-control my-0 py-1 red-border" ref={textBoxRef} style={{ borderRadius: '500px 0 0 500px' }} id="chargerID" name="chargerID" value={searchChargerID} onChange={(e) => setChargerID(e.target.value)} placeholder="Enter DeviceID" required />
+                {/* Form */}
+            <form onSubmit={handleSearch} id="search" className="search w-100" onClick={handleTextBoxClick}>
+                <div className="input-group md-form form-sm form-2" id="searchMargin">
+                    <input type="text" className="form-control my-0 py-1 red-border" ref={textBoxRef} style={{ borderRadius: '500px 0 0 500px', height: '44px' }} id="chargerID" name="chargerID" value={searchChargerID} onChange={(e) => setChargerID(e.target.value)} placeholder="Enter DeviceID" required />
                     <div className="input-group-append">
-                        <button className="input-group-text bg-success " id="basic-text1" type='submit' style={{ borderRadius: '0 500px 500px 0' }}>
+                        <button className="input-group-text bg-success " id="basic-text1" type='submit' style={{ borderRadius: '0 500px 500px 0', border: 'none' }}>
                             <i className="fas fa-search text-white" aria-hidden="true"></i>
                         </button>
                     </div>
